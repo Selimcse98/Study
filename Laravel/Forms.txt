@@ -1,0 +1,253 @@
+Laravel provides various in built tags to handle HTML forms easily and securely. All the major elements of HTML are generated using Laravel. To support this, we need to add HTML package to Laravel using composer.
+
+Step 1: Execute the following command to proceed with the same.
+
+composer require illuminate/html //Obsolete
+composer require laravelcollective/html //Current, followed by composer update
+
+In the composer.json file 
+"require": {
+        "php": ">=5.5.9",
+        "laravel/framework": "5.2.*",
+        "illuminate/html": "^5.0",
+        "laravelcollective/html": "^5.2"
+    },
+
+Next, add your new provider to the providers array of config/app.php:
+
+  'providers' => [
+    // ...
+    Collective\Html\HtmlServiceProvider::class,
+    // ...
+  ],
+Finally, add two class aliases to the aliases array of config/app.php:
+
+  'aliases' => [
+    // ...
+      'Form' => Collective\Html\FormFacade::class,
+      'Html' => Collective\Html\HtmlFacade::class,
+    // ...
+  ],    
+
+Step 2: Now everything is setup. Let’s see how we can use various HTML elements using Laravel tags.
+===========================================================================================================
+Example:
+
+Step 1: Copy the following code to create a view called resources/views/form.php
+
+<html>
+    <body>
+        <?php
+            echo Form::open(array('url' => 'foo/bar'));
+            echo Form::text('username','Username');
+            echo '<br/>';
+            echo Form::text('email', 'example@gmail.com');
+            echo '<br/>';
+            echo Form::password('password');
+            echo '<br/>';
+            echo Form::checkbox('name', 'value');
+            echo '<br/>';
+            echo Form::radio('name', 'value');
+            echo '<br/>';
+            echo Form::file('image');
+            echo '<br/>';
+            echo Form::select('size', array('L' => 'Large', 'S' =>'Small'));
+            echo '<br/>';
+            echo Form::submit('Click Me!');
+            echo Form::close();
+        ?>
+    </body>
+</html>
+
+Step 2: Add the following line in app/Http/routes.php to add a route for view form.php
+
+Route::get('/form',function(){ 
+	return view('form');
+});
+
+Step 3: Visit the following URL to see the form.
+
+ http://localhost:8000/form
+
+
+===========================================================================================================
+Mohammads-MacBook-Air:quickstart-basic mohammadselimmiah$ composer require illuminate/html
+Using version ^5.0 for illuminate/html
+./composer.json has been updated
+> php artisan clear-compiled
+Loading composer repositories with package information
+Updating dependencies (including require-dev)
+  - Installing illuminate/html (v5.0.0)
+    Downloading: 100%         
+
+Package illuminate/html is abandoned, you should avoid using it. Use laravelcollective/html instead.
+Writing lock file
+Generating autoload files
+> php artisan optimize
+Generating optimized class loader
+Mohammads-MacBook-Air:quickstart-basic mohammadselimmiah$ 
+Mohammads-MacBook-Air:quickstart-basic mohammadselimmiah$ 
+Mohammads-MacBook-Air:quickstart-basic mohammadselimmiah$ 
+Mohammads-MacBook-Air:quickstart-basic mohammadselimmiah$ 
+Mohammads-MacBook-Air:quickstart-basic mohammadselimmiah$ composer require laravelcollective/html
+Using version ^5.2 for laravelcollective/html
+./composer.json has been updated
+> php artisan clear-compiled
+Loading composer repositories with package information
+Updating dependencies (including require-dev)
+  - Installing laravelcollective/html (v5.2.4)
+    Downloading: 100%         
+
+Package illuminate/html is abandoned, you should avoid using it. Use laravelcollective/html instead.
+Writing lock file
+Generating autoload files
+> php artisan optimize
+Generating optimized class loader
+Mohammads-MacBook-Air:quickstart-basic mohammadselimmiah$ composer update
+> php artisan clear-compiled
+Loading composer repositories with package information
+Updating dependencies (including require-dev)
+  - Removing vlucas/phpdotenv (v2.2.0)
+  - Installing vlucas/phpdotenv (v2.3.0)
+    Loading from cache
+
+  - Removing symfony/polyfill-mbstring (v1.1.0)
+  - Installing symfony/polyfill-mbstring (v1.2.0)
+    Loading from cache
+
+  - Removing symfony/var-dumper (v3.0.2)
+  - Installing symfony/var-dumper (v3.0.8)
+    Loading from cache
+
+  - Removing symfony/translation (v3.0.2)
+  - Installing symfony/translation (v3.0.8)
+    Loading from cache
+
+  - Removing symfony/routing (v3.0.2)
+  - Installing symfony/routing (v3.0.8)
+    Loading from cache
+
+  - Removing symfony/process (v3.0.2)
+  - Installing symfony/process (v3.0.8)
+    Loading from cache
+
+  - Removing symfony/polyfill-util (v1.1.0)
+  - Installing symfony/polyfill-util (v1.2.0)
+    Loading from cache
+
+  - Removing symfony/polyfill-php56 (v1.1.0)
+  - Installing symfony/polyfill-php56 (v1.2.0)
+    Loading from cache
+
+  - Removing symfony/http-foundation (v3.0.2)
+  - Installing symfony/http-foundation (v3.0.8)
+    Loading from cache
+
+  - Removing symfony/event-dispatcher (v3.0.2)
+  - Installing symfony/event-dispatcher (v3.1.2)
+    Loading from cache
+
+  - Removing symfony/debug (v3.0.2)
+  - Installing symfony/debug (v3.0.8)
+    Loading from cache
+
+  - Removing symfony/http-kernel (v3.0.2)
+  - Installing symfony/http-kernel (v3.0.8)
+    Loading from cache
+
+  - Removing symfony/finder (v3.0.2)
+  - Installing symfony/finder (v3.0.8)
+    Loading from cache
+
+  - Removing symfony/console (v3.0.2)
+  - Installing symfony/console (v3.0.8)
+    Loading from cache
+
+  - Removing swiftmailer/swiftmailer (v5.4.1)
+  - Installing swiftmailer/swiftmailer (v5.4.3)
+    Downloading: 100%         
+
+  - Removing nikic/php-parser (v2.0.0)
+  - Installing nikic/php-parser (v2.1.0)
+    Loading from cache
+
+  - Removing psy/psysh (v0.6.1)
+  - Installing psy/psysh (v0.7.2)
+    Loading from cache
+
+  - Removing paragonie/random_compat (v1.2.0)
+  - Installing paragonie/random_compat (v1.4.1)
+    Loading from cache
+
+  - Removing monolog/monolog (1.17.2)
+  - Installing monolog/monolog (1.20.0)
+    Loading from cache
+
+  - Removing league/flysystem (1.0.17)
+  - Installing league/flysystem (1.0.24)
+    Loading from cache
+
+  - Removing laravel/framework (v5.2.20)
+  - Installing laravel/framework (v5.2.39)
+    Loading from cache
+
+  - Removing fzaninotto/faker (v1.5.0)
+  - Installing fzaninotto/faker (v1.6.0)
+    Loading from cache
+
+  - Removing mockery/mockery (0.9.4)
+  - Installing mockery/mockery (0.9.5)
+    Loading from cache
+
+  - Removing symfony/yaml (v3.0.2)
+  - Installing symfony/yaml (v3.1.2)
+    Loading from cache
+
+  - Removing sebastian/exporter (1.2.1)
+  - Installing sebastian/exporter (1.2.2)
+    Loading from cache
+
+  - Removing sebastian/environment (1.3.3)
+  - Installing sebastian/environment (1.3.7)
+    Loading from cache
+
+  - Removing phpunit/php-timer (1.0.7)
+  - Installing phpunit/php-timer (1.0.8)
+    Loading from cache
+
+  - Installing webmozart/assert (1.0.2)
+    Loading from cache
+
+  - Installing phpdocumentor/reflection-common (1.0)
+    Loading from cache
+
+  - Installing phpdocumentor/type-resolver (0.2)
+    Loading from cache
+
+  - Removing phpdocumentor/reflection-docblock (2.0.4)
+  - Installing phpdocumentor/reflection-docblock (3.1.0)
+    Loading from cache
+
+  - Removing phpspec/prophecy (v1.6.0)
+  - Installing phpspec/prophecy (v1.6.1)
+    Loading from cache
+
+  - Removing phpunit/phpunit (4.8.23)
+  - Installing phpunit/phpunit (4.8.26)
+    Loading from cache
+
+  - Removing symfony/css-selector (v3.0.2)
+  - Installing symfony/css-selector (v3.0.8)
+    Loading from cache
+
+  - Removing symfony/dom-crawler (v3.0.2)
+  - Installing symfony/dom-crawler (v3.0.8)
+    Loading from cache
+
+Package illuminate/html is abandoned, you should avoid using it. Use laravelcollective/html instead.
+Writing lock file
+Generating autoload files
+> php artisan optimize
+Generating optimized class loader
+Mohammads-MacBook-Air:quickstart-basic mohammadselimmiah$ 
+

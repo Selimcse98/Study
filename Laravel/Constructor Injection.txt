@@ -1,0 +1,43 @@
+Step 1: Add the following code to app/Http/routes.php file.
+
+class MyClass{
+     public $foo = 'bar';
+} 
+
+Route::get('/myclass','ImplicitController@index');
+
+Step2: Add the following code to app/Http/Controllers/ImplicitController.php 
+
+<?php
+namespace App\Http\Controllers;
+use Illuminate\Http\Request;
+use App\Http\Requests;
+use App\Http\Controllers\Controller;
+class ImplicitController extends Controller
+{
+    private $myclass;
+
+    public function __construct(\MyClass $myclass)
+    {
+        $this->myclass = $myclass;
+
+    }
+
+    public function index()
+    {
+        dd($this->myclass);
+    }
+}
+
+
+Step 3: Visit the following URL to test the constructor injection.
+
+http://localhost:8000/myclass
+
+Step 4: The output will appear as shown 
+
+MyClass {#180 ▼
+  +foo: "bar"
+}
+
+

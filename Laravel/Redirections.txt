@@ -1,0 +1,57 @@
+Step 1: Create a view called test.php and save it at resources/views/test.php.
+
+<html>
+<body>
+<h1>Example of Redirecting to Named Routes</h1>
+</body>
+</html>
+
+Step 2: In routes.php
+
+Route::get('/test', ['as'=>'testing',function(){ 
+return view('test2'); //test2.php
+}]);
+
+Route::get('redirect',function(){
+     return redirect()->route('testing');
+});
+
+Step 3: Visit the following URL to test the named route example.
+ http://localhost:8000/redirect
+
+
+
+
+======================== Redirecting to Controller Actions ===========================
+
+Step 1: Execute the below command to create a controller called RedirectController.
+
+Mohammads-MacBook-Air:quickstart-basic mohammadselimmiah$ php artisan make:controller RedirectController
+Controller created successfully.
+
+
+Step 2: Copy the following code to file app/Http/Controllers/RedirectController.php
+
+<?php
+namespace App\Http\Controllers;
+use Illuminate\Http\Request;
+use App\Http\Requests;
+use App\Http\Controllers\Controller;
+class RedirectController extends Controller
+{
+    public function index(){
+            echo "Redirecting to controller's action.";
+	} 
+}
+
+Step 3: Add the following lines in app/Http/routes.php.
+
+Route::get('rr','RedirectController@index');
+
+Route::get('/redirectcontroller',function(){
+        return redirect()->action('RedirectController@index');
+});
+
+Step 4: visit url
+ http://localhost:8000/redirectcontroller
+

@@ -1,0 +1,43 @@
+Step 1: Execute the below command to create a controller in which we will manipulate the cookie.
+
+Mohammads-MacBook-Air:quickstart-basic mohammadselimmiah$ php artisan make:controller CookieController
+Controller created successfully.
+
+Step 2: Copy the following code in app/Http/Controllers/CookieController.php file.
+
+<?php
+
+namespace App\Http\Controllers;
+
+use Illuminate\Http\Request;
+
+use App\Http\Requests;
+use App\Http\Controllers\Controller;
+
+class CookieController extends Controller
+{
+    public function setCookie(Request $request){
+        $minutes = 1;
+        $response = new Response('Hello World');
+        $response->withCookie(cookie('name', 'virat', $minutes));
+        return $response;
+    }
+
+    public function getCookie(Request $request){
+        $value = $request->cookie('name');
+        echo $value;
+    }
+}
+
+
+Step 3: Add the following line in app/Http/routes.php file.
+
+Route::get('/cookie/set','CookieController@setCookie'); 
+Route::get('/cookie/get','CookieController@getCookie');
+
+Step 4: Visit the following URL to set the cookie.
+http://localhost:8000/cookie/set
+
+Step 5: Visit the following URL to get the cookie from the above URL.
+  http://localhost:8000/cookie/get
+  

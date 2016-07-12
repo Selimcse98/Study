@@ -1,0 +1,117 @@
+1. Difference between group by and order by
+
+CREATE TABLE shop (
+    article INT(4) UNSIGNED ZEROFILL DEFAULT '0000' NOT NULL,
+    dealer  CHAR(20)                 DEFAULT ''     NOT NULL,
+    price   DOUBLE(16,2)             DEFAULT '0.00' NOT NULL,
+    PRIMARY KEY(article, dealer));
+
+SHOW CREATE TABLE shop    
+shop	CREATE TABLE `shop` (   `article` int(4) unsigned zerofill NOT NULL DEFAULT '0000',   `dealer` char(20) NOT NULL DEFAULT '',   `price` double(16,2) NOT NULL DEFAULT '0.00',   PRIMARY KEY (`article`,`dealer`) ) ENGINE=InnoDB DEFAULT CHARSET=utf8    
+    
+INSERT INTO shop VALUES
+    (1,'A',3.45),(1,'B',3.99),(2,'A',10.99),(3,'B',1.45),
+    (3,'C',1.69),(3,'D',1.25),(4,'D',19.95);  
+
+SELECT * FROM `shop` 
+0001	A	3.45
+0001	B	3.99
+0002	A	10.99
+0003	B	1.45
+0003	C	1.69
+0003	D	1.25
+0004	D	19.95
+
+		
+
+
+SELECT article, max(price) as Max_price from shop GROUP by article;
+article 	Max_price 	
+0001 	3.99
+0002 	10.99
+0003 	1.69
+0004 	19.95
+
+
+
+SELECT article, max(price) as Max_price from shop order by article;
+article 	Max_price 	
+0001 	19.95
+
+
+SELECT dealer, max(price) as price_max FROM shop GROUP by dealer
+dealer 	price_max 	
+A 	10.99
+B 	3.99
+C 	1.69
+D 	19.95
+
+
+SELECT article, dealer, price
+FROM   shop s1
+WHERE  price=(SELECT MAX(s2.price)
+              FROM shop s2
+              WHERE s1.article = s2.article);
+
++---------+--------+-------+
+| article | dealer | price |
++---------+--------+-------+
+|    0001 | B      |  3.99 |
+|    0002 | A      | 10.99 |
+|    0003 | C      |  1.69 |
+|    0004 | D      | 19.95 |
++---------+--------+-------+              
+
+
+SELECT last_insert_id() from animals limit 1;
+
+2. Copy from existing table to new table [new table must be created with create table command]
+insert into personbackup select * from person
+
+3. primary and foreign key relationsip
+CREATE TABLE `employees` (   `EmployeeID` int(11) NOT NULL,   `LastName` varchar(50) NOT NULL,   `FirstName` varchar(50) NOT NULL,   `BirthDate` date NOT NULL,   `Photo` varchar(50) NOT NULL,   UNIQUE KEY `EmployeeID` (`EmployeeID`) ) ENGINE=MyISAM DEFAULT CHARSET=utf8
+
+alter table employees engine = InnoDB; //because MyISAM table doesn't accept foreign key
+
+create table department(
+dept_id smallint not null primary key,
+dept_name varchar (40) not null,
+EmployeeID int (11) not null,
+foreign key (EmployeeID) references employees (EmployeeID));
+
+insert into department values (06,"Technical",3); //foreign key value must exist in the reference table, in this case  EmployeeID=3
+
+
+
+=======================================================
+DROP DATABASE IF EXISTS androiddb;
+
+CREATE DATABASE androiddb;
+
+DROP TABLE  if EXISTS `employee`;
+
+CREATE TABLE `employee` (
+ `id` int(11) PRIMARY KEY AUTO_INCREMENT,
+ `name` varchar(100) NOT NULL,
+ `designation` varchar(100) NOT NULL,
+ `salary` varchar(100) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=latin1
+
+INSERT INTO `employee`(`id`, `name`, `designation`, `salary`) VALUES (1,"Selim Miah","Engineer", "50K");
+INSERT INTO `employee`(`name`, `designation`, `salary`) VALUES ("Wahida Moon","Customer Service", "90K");
+INSERT INTO `employee`(`id`, `name`, `designation`, `salary`) VALUES (3,"Nuzhat Selim","Engineer", "150K");
+INSERT INTO `employee`(`name`, `designation`, `salary`) VALUES ("Pannu Miah","Engineer", "150K");
+
+
+show CREATE TABLE employee;
+
+CREATE TABLE `employee` (
+ `id` int(11) NOT NULL AUTO_INCREMENT,
+ `name` varchar(100) NOT NULL,
+ `designation` varchar(100) NOT NULL,
+ `salary` varchar(100) NOT NULL,
+ PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=latin1
+
+show TABLE STATUS;
+

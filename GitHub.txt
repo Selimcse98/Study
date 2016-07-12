@@ -1,0 +1,22 @@
+============= Push ==============
+cd C:\Users\Mohammad\Desktop\SCU-android-master\SCU-android-master
+git init
+cd C:\Users\Mohammad\Desktop\SCU-android-master\SCU-android-master\app\src\main\java\com\scu\healthcare\patient
+git add QRScheck.java
+git commit -m "Heart Rate Calculation"
+git remote add origin https://github.com/kamrulislam/SCU-android
+
+
+    git pull= git fetch origin + git merge origin/master (or whatever your upstream is)
+    git pull origin = git pull (as long as origin is your upstream remote)
+    git pull origin master = git fetch origin master+git merge FETCH_HEAD
+    git pull origin/master : invalid unless you have a remote called "origin/master"
+    git pull origin HEAD:master : Tries to directly reset you local master to whatever HEAD points to on origin. (Don't do this.)
+
+
+C:\Users\Mohammad\Desktop\SCU-android-master\SCU-android-master [master +0 ~1 -0]> git branch -vv
+* master 63a08b4 [origin/master] Third commit from Selim
+
+
+git remote -v //This command gives you a list of all the remote origins your local repository knows about. 
+git init //makes a local directory a git repository

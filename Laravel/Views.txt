@@ -1,0 +1,160 @@
+Step 1: Copy the following code and save it at resources/views/test.php
+
+<html>
+    <body>
+        <h1>Hello, World</h1>
+    </body>
+</html>
+
+Step 2: Add the following line in app/Http/routes.php file to set the route for the above view.
+
+ Route::get('/test', function(){ return view('test');
+});
+
+Step 3: Visit the following URL to see the output of the view.
+ http://localhost:8000/test
+
+
+ =========================== Passing Data to Views ===============================
+ Step 1: Copy the following code and save it at resources/views/test.php
+
+ <html>
+<body>
+<h1><?php echo $name; ?></h1>
+</body>
+</html>
+
+Step 2: Add the following line in app/Http/routes.php file to set the route for the above view.
+
+ Route::get('/test', function(){
+        return view('test',['name'=>'Virat Gandhi']);
+
+Step 3: The value of the key name will be passed to test.php file and $name will be replaced by that value
+
+Step 4: Visit the following URL to see the output of the view.
+
+http://localhost:8000/test
+
+will produce following output
+
+Virat Gandhi        
+
+=========================== Sharing Data with all Views ===============================
+
+Step 1: Add the following line in app/Http/routes.php file.
+
+Route::get('/test', function(){
+        return view('test');
+    });
+
+    Route::get('/test2', function(){
+        return view('test2');
+    });
+
+Step 2: Create two view files — test.php and test2.php with the same code. These are the two files which will share data. Copy the following code in both the files. resources/views/test.php & resources/views/test2.php
+
+<html>
+    <body>
+        <h1><?php echo $name; ?></h1>
+    </body>
+</html>
+
+Step 3: Change the code of boot method in the file app/Providers/AppServiceProvider.php 
+as shown below. (Here, we have used share method and the data that we have passed will be shared with all the views.)
+
+<?php
+
+namespace App\Providers;
+
+use Illuminate\Support\ServiceProvider;
+
+class AppServiceProvider extends ServiceProvider
+{
+    public function boot()
+    {
+        view()->share('name', 'Virat Gandhi');
+    }
+
+    public function register()
+    {
+    }
+}
+
+Step 4: Visit the following URLs.
+
+http://localhost:8000/test
+http://localhost:8000/test2
+
+
+======================================== Blade Templates ======================================== 
+
+Step 1: Create a master template and save resources/views/layouts/master.blade.php.
+it at
+
+<html>
+    <head>
+        <title>@yield('title')</title>
+    </head>
+    <body>
+        @section('sidebar')
+            This is the master sidebar.
+        @show
+        <div class="container">
+            @yield('content')
+        </div>
+    </body>
+</html>
+
+Step 2: Here, in the master template,
+  @yield('title') is used to display the value of the title
+  @section('sidebar') is used to define a section named sidebar
+  @show is used to display the contents of a section
+  @yield('content') is used to display the contents of content
+
+Step 3: Now, create another page and extend the master template and save it at resources/views/page.blade.php
+
+@extends('layouts.master')
+@section('title', 'Page Title')
+@section('sidebar')
+    @parent
+    <p>This is appended to the master sidebar.</p>
+@endsection
+@section('content')
+    <h2>{{$name}}</h2>
+    <p>This is my body content.</p>
+@endsection
+
+
+Step 4: Here is the description of each element.
+@extends('layouts.master') is used to extend the master layout. “layouts.master” — Here, layouts is the name of the directory, where we have stored the master template and “.master” of the master template “master.blade.php” refers to its name but here only name is used without extension blade.php
+  @section('title', 'Page Title') sets the value of the title section.
+  @section('sidebar') defines a sidebar section in the child page of master
+layout.
+  @parent displays the content of the sidebar section, defined in the master layout.
+  <p> This is appended to the master sidebar.</p> adds paragraph content to the sidebar section
+  @endsection ends the sidebar section.
+  @section('content') defines the content section.
+  @section('content') adds paragraph content to the content section.
+  @endsection ends the content section.
+
+
+Step 5: Now, set up the route to view this template. Add the following line at app/Http/routes.php
+
+Route::get('blade', function () {
+return view('page',array('name' => 'Virat Gandhi'));
+});
+
+Step 5: Visit the following URL to view the blade template example.
+
+http://localhost:8000/blade
+
+Step 6: This will produce following output:
+
+This is the master sidebar.
+This is appended to the master sidebar.
+
+Virat Gandhi
+
+This is my body content.
+
+

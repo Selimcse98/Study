@@ -1,0 +1,80 @@
+Example
+
+Step 1: Create a controller called MyController
+php artisan make:controller MyController
+
+
+Mohammads-MacBook-Air:quickstart-basic mohammadselimmiah$ php artisan make:controller MyController
+Controller created successfully.
+
+
+Step 2: Add the following code in app/Http/Controllers/MyController.php
+
+<?php
+
+namespace App\Http\Controllers;
+
+use Illuminate\Http\Request;
+
+use App\Http\Requests;
+use App\Http\Controllers\Controller;
+
+class MyController extends Controller
+{
+    public function index()
+    {
+        echo 'index';
+    }
+    public function create()
+    {
+        echo 'create';
+    }
+    public function store(Request $request)
+    {
+        echo 'store';
+    }
+    public function show($id)
+    {
+        echo 'show';
+    }
+    public function edit($id)
+    {
+        echo 'edit';
+    }
+    public function update(Request $request, $id)
+    {
+        echo 'update';
+    }
+    public function destroy($id)
+    {
+        echo 'destroy';
+    }
+
+}
+
+
+Step 3: Add the following line of code in app/Http/routes.php file.
+
+Step 4: We are now registering all the methods of MyController by registering a controller with resource. Below is the table of actions handled by resource controller
+
+GET 	/my 	index 	my.index 
+GET 	/my/create 	create 	my.create 
+POST 	/my 	store 	my.store 
+GET 	/my/{my} 	show 	my.show 
+GET 	/my/{my}/edit 	edit 	my.edit 
+PUT/PATCH 	/my/{my} update my.update	 	 
+DELETE 	/my/{my} 	 	my.destroy 
+
+Step 5: Try executing the URLs shown in the following table.
+http://localhost:8000/my
+Executes index method of MyController.php
+ 
+http://localhost:8000/my/create
+Executes create method of MyController.php
+  
+http://localhost:8000/my/1
+Executes show method of MyController.php
+ 
+http://localhost:8000/my/1/edit
+Executes edit method of MyController.php
+ 

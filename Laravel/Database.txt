@@ -1,0 +1,291 @@
+Step 1: Execute the below command to create a controller called StudInsertController
+
+
+Mohammads-MacBook-Air:quickstart-basic mohammadselimmiah$ php artisan make:controller StudInsertController
+Controller created successfully.
+
+Step 2: Copy the following code to file app/Http/Controllers/StudInsertController.php
+
+<?php
+
+namespace App\Http\Controllers;
+
+use Illuminate\Http\Request;
+
+use DB;
+
+use App\Http\Requests;
+use App\Http\Controllers\Controller;
+
+class StudInsertController extends Controller
+{
+    public function insertform()
+    {
+        return view('stud_create');
+    }
+    public function insert(Request $request){
+        $name = $request->input('stud_name');
+        DB::insert('insert into student (name) values(?)',[$name]); echo "Record inserted successfully.<br/>";
+        echo '<a href="/insert">Click Here</a> to go back.';
+    }
+}
+
+
+Step 3: Create a view file called resources/views/stud_create.php and copy the following code in that file.
+
+<html>
+<head><title>Student Management | Add</title></head>
+<body>
+<form action="/create" method="post">
+<input type="hidden" name="_token" value="<?php echo csrf_token(); ?>"> <table>
+     <tr>
+            <td>Name</td>
+<td><input type='text' name='stud_name' /></td> </tr>
+<tr>
+<td colspan='2'><input type='submit' value="Add student" /></td>
+     </tr>
+</table>
+</form>
+</body>
+</html>
+
+Step 4: Add the following lines in app/Http/routes.php.
+
+Route::get('insert','StudInsertController@insertform'); 
+Route::post('create','StudInsertController@insert'); //<form action="/create" method="post">
+
+Step 5: Visit the following URL to insert record in database.
+
+http://localhost:8000/insert
+
+when you click Add student button, it will insert into table student and redirect to
+
+http://localhost:8000/create
+
+
+============================== Retrieve Records from Database =======================================
+Step 1: Execute the below command to create a controller called StudViewController
+
+php artisan make:controller StudViewController
+Controller created successfully.
+
+Step 2: Copy the following code to file app/Http/Controllers/StudViewController.php
+
+<?php
+
+namespace App\Http\Controllers;
+
+use Illuminate\Http\Request;
+
+use DB;
+
+use App\Http\Requests;
+use App\Http\Controllers\Controller;
+
+class StudViewController extends Controller
+{
+    public function index(){
+        $users = DB::select('select * from student'); 
+        return view('stud_view',['users'=>$users]);
+    }
+}
+
+Step 3: Create a view file called resources/views/stud_view.blade.php
+
+<html>
+<head><title>View Student Records</title></head> <body>
+<table border=1>
+    <tr>
+        <td>ID</td>
+        <td>Name</td>
+    </tr>
+    @foreach ($users as $user)
+        <tr>
+            <td>{{ $user->Id }}</td>
+            {{--Be careful Id and Name are the case-sensitive fields of table student--}}
+            <td>{{ $user->Name }}</td>
+        </tr>
+    @endforeach
+</table>
+</body>
+</html>
+
+Step 4: Add the following lines in app/Http/routes.php.
+
+Route::get('view-records','StudViewController@index');
+
+Step 5: Visit the following URL to see records from database.
+
+http://localhost:8000/view-records
+
+
+ID  Name
+1   Selim
+2   Wahida Moon
+3   Wahida Moon
+4   Monon
+5   Nuzhat Selim
+
+============================ Update Records ==============================
+Step 1: Execute the below command to create a controller called StudViewController
+
+php artisan make:controller StudUpdateController
+Controller created successfully.
+
+Step 2: Copy the following code to file app/Http/Controllers/
+StudUpdateController.php
+
+<?php
+
+namespace App\Http\Controllers;
+
+use Illuminate\Http\Request;
+
+use DB;
+
+use App\Http\Requests;
+use App\Http\Controllers\Controller;
+
+class StudUpdateController extends Controller
+{
+    public function index(){
+        $users = DB::select('select * from student'); return view('stud_edit_view',['users'=>$users]);
+    }
+    public function show($id)
+    {
+        $users = DB::select('select * from student where id = ?',[$id]);
+        return view('stud_update',['users'=>$users]);
+    }
+    public function edit(Request $request,$id)
+    {
+        $name = $request->input('stud_name');
+        DB::update('update student set name = ? where id = ?',[$name,$id]); echo "Record updated successfully.<br/>";
+        echo '<a href="/edit-records">Click Here</a> to go back.';
+    }
+}
+
+
+Step 3: Create a view file called resources/views/stud_edit_view.blade.php and copy the following code in that file.
+
+<html>
+<head><title>View Student Records</title></head>
+<body>
+<table border="1">
+    <tr>
+        <td>ID</td>
+        <td>Name</td>
+        <td>Edit</td>
+    </tr>
+    @foreach ($users as $user)
+        <tr>
+            <td>{{ $user->Id }}</td>
+            <td>{{ $user->Name }}</td>
+            {{--Be careful Id and Name are the case-sensitive fields of table student--}}
+            <td><a href='edit/{{ $user->id }}'>Edit</a></td> </tr>
+    @endforeach
+</table>
+</body>
+</html>
+
+Step 4: Create another view file called resources/views/stud_update.php and copy the following code in that file.
+
+<html>
+<head><title>Student Management | Edit</title></head>
+<body>
+<form action="/edit/<?php echo $users[0]->id; ?>" method="post">
+    <input type="hidden" name="_token" value="<?php echo csrf_token(); ?>"> <table>
+        <tr>
+            <td>Name</td>
+            <td><input type='text' name='stud_name' value='<?php echo $users[0]->name; ?>' /></td>
+        </tr>
+        <tr>
+            <td colspan='2'><input type='submit' value="Update student" /></td>
+        </tr>
+    </table>
+</form>
+</body>
+</html>
+
+Step 5: Add the following lines in app/Http/routes.php.
+
+Route::get('edit-records','StudUpdateController@index'); Route::get('edit/{id}','StudUpdateController@show'); 
+Route::post('edit/{id}','StudUpdateController@edit');
+
+Step 6: Visit the following URL to update records in database.
+
+ http://localhost:8000/edit-records
+
+
+
+ID  Name    Edit
+1   Selim   Edit
+2   Wahida Moon Edit
+3   Wahida Moon Edit
+4   Monon   Edit
+5   Nuzhat Selim    Edit
+
+============================== Delete Records ============================
+Step 1: Execute the below command to create a controller called StudDeleteController
+
+php artisan make:controller StudDeleteController
+Controller created successfully.
+
+
+Step 2: Copy the following code to file
+app/Http/Controllers/StudDeleteController.php
+
+<?php
+
+namespace App\Http\Controllers;
+
+use Illuminate\Http\Request;
+
+use DB;
+
+use App\Http\Requests;
+use App\Http\Controllers\Controller;
+
+class StudDeleteController extends Controller
+{
+    public function index(){
+        $users = DB::select('select * from student');
+        return view('stud_delete_view',['users'=>$users]);
+    }
+
+    public function destroy($id)
+    {
+        DB::delete('delete from student where Id = ?',[$id]); //here Id is not case sensitive since it's being handled by MySQL
+        echo "Record deleted successfully.<br/>";
+        echo '<a href="/delete-records">Click Here</a> to go back.';
+    }
+}
+
+
+Step 3: Create a view file called resources/views/stud_delete_view.blade.php
+
+<html>
+<head><title>View Student Records</title></head> <body>
+<table border="1">
+    <tr>
+        <td>ID</td>
+        <td>Name</td>
+        <td>Delete</td>
+    </tr>
+    @foreach ($users as $user)
+        <tr>
+            <td>{{ $user->Id }}</td>
+            <td>{{ $user->Name }}</td>
+            {{-- Here Id and Name Case sensitive because it is handled by Laravel Blade template--}}
+            <td><a href='delete/{{ $user->Id }}'>Delete</a></td> </tr>
+    @endforeach
+</table>
+</body>
+</html>
+
+Step 4: Add the following lines in app/Http/routes.php
+
+Route::get('delete-records','StudDeleteController@index'); Route::get('delete/{id}','StudDeleteController@destroy');
+
+Step 5: Browse with the following URL
+
+http://localhost:8000/delete-records

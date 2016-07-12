@@ -1,0 +1,75 @@
+Step 1: Create a Registration form, where user can register himself and store the form at resources/views/register.php
+
+<html>
+<head>
+    <title>Form Example</title>
+</head>
+<body>
+<form action="/user/register" method="post">
+    <input type="hidden" name="_token" value="<?php echo csrf_token() ?>">
+    <table> <tr>
+            <td>Name</td>
+            <td><input type="text" name="name" /></td> </tr>
+        <tr>
+            <td>Username</td>
+            <td><input type="text" name="username" /></td>
+        </tr>
+        <tr>
+            <td>Password</td>
+            <td><input type="password" name="password" /></td> </tr>
+        <tr>
+            <td colspan="2" align="center"><input type="submit"
+                                                  value="Register" /></td>
+        </tr>
+    </table>
+</form>
+</body>
+</html>
+
+Step 2: Execute the below command to create a UserRegistration controller.
+
+Mohammads-MacBook-Air:quickstart-basic mohammadselimmiah$ php artisan make:controller UserRegistration
+Controller created successfully.
+
+Step 3: Copy the following code in app/Http/Controllers/UserRegistration.php controller.
+
+<?php
+
+namespace App\Http\Controllers;
+
+use Illuminate\Http\Request;
+
+use App\Http\Requests;
+use App\Http\Controllers\Controller;
+
+class UserRegistration extends Controller
+{
+    public function postRegister(Request $request)
+    {
+        //Retrieve the name input field
+        $name = $request->input('name'); // $name = $request->name;
+        echo 'Name: ' . $name;
+        echo '<br>';
+        //Retrieve the username input field
+        $username = $request->username;
+        echo 'Username: ' . $username;
+        echo '<br>';
+//Retrieve the password input field
+        $password = $request->password;
+        echo 'Password: ' . $password;
+    }
+}
+
+Step 4: Add the following line in app/Http/routes.php file.
+
+Route::get('/register',function(){ return view('register');
+}); 
+
+Route::post('/user/register',array('uses'=>'UserRegistration@postRegister'));
+
+Step 5: Fill out registraion info
+
+ http://localhost:8000/register
+
+Output will be the information provided
+

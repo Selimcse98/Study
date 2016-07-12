@@ -1,0 +1,11 @@
+============== Errors ==================
+variable APP_DEBUG at .env stored at the root of the application
+
+For local environment the value of APP_DEBUG should be true but for production it needs to be set to false to hide errors.
+Note: After changing the APP_DEBUG variable, restart the Laravel server.
+
+============== Logging ==================
+in config/app.php
+'log' => 'daily'
+You can see the generated log entries in storage/logs/laravel.log file.
+

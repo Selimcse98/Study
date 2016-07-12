@@ -1,0 +1,150 @@
+In MVC framework, the letter ‘C’ stands for Controller. It acts as a directing traffic between Views and Models.
+
+Step 1: Execute the following command to create UserController
+php artisan make:controller UserController
+
+Mohammads-MacBook-Air:quickstart-basic mohammadselimmiah$     php artisan make:controller UserController
+Controller created successfully.
+
+Step 2: After successful execution, it will create UserController.php in App\Http\Controllers
+
+Step 3: Make the routing at routes.php under app\Http
+
+Route::get('profile', [
+    'middleware' => 'auth',
+    'uses' => 'UserController@showProfile'
+]);
+
+//Here we are assigning auth middleware to UserController in profile route.
+
+Step 4: Assigning Middleware within Controller’s constructor:
+
+<?php
+namespace App\Http\Controllers;
+use Illuminate\Http\Request;
+use App\Http\Requests;
+use App\Http\Controllers\Controller;
+class UserController extends Controller
+{
+    public function __construct(){
+            $this->middleware('auth');
+	} 
+}
+
+//Here we are assigning auth middleware using the middleware method in the UserController’s constructor.
+
+============== Example =======================
+Step 1: Add the following lines to the app/Http/routes.php 
+
+ Route::get('/usercontroller/path',[
+        'middleware' => 'First',
+    'uses' => 'UserController@showPath'
+    ]);
+
+Step 2: Create a middleware called FirstMiddleware 
+ php artisan make:middleware FirstMiddleware
+
+ Mohammads-MacBook-Air:quickstart-basic mohammadselimmiah$  php artisan make:middleware FirstMiddleware
+Middleware created successfully.
+
+Step 3: Add the following code in the handle method of the newly created FirstMiddleware at app/Http/Middleware FirstMiddleware.php
+
+<?php
+namespace App\Http\Middleware;
+
+use Closure;
+
+class FirstMiddleware
+{
+    public function handle($request, Closure $next)
+    {
+        echo '<br>First Middleware';
+        return $next($request);
+    }
+}
+
+Step 4: Create a middleware called SecondMiddleware 
+Mohammads-MacBook-Air:quickstart-basic mohammadselimmiah$      php artisan make:middleware SecondMiddleware
+Middleware created successfully.
+
+Step 5: Add the following code in the handle method of the newly created
+SecondMiddleware at app/Http/Middleware. SecondMiddleware.php
+
+<?php
+namespace App\Http\Middleware;
+
+use Closure;
+
+class SecondMiddleware
+{
+    public function handle($request, Closure $next)
+    {
+        echo '<br>Second Middleware';
+        return $next($request);
+    }
+}
+
+Step 6: Create a controller called UserController
+php artisan make:controller UserController
+
+Mohammads-MacBook-Air:quickstart-basic mohammadselimmiah$     php artisan make:controller UserController
+Controller created successfully.
+
+Step 7: Copy the following code to app/Http/UserController.php file.
+<?php
+namespace App\Http\Controllers;
+
+use Illuminate\Http\Request;
+use App\Http\Requests;
+use App\Http\Controllers\Controller;
+
+class UserController extends Controller
+{
+    public function __construct()
+    {
+        $this->middleware('Second');
+    }
+
+    public function showPath(Request $request)
+    {
+        $uri = $request->path();
+        echo '<br>URI: ' . $uri;
+        $url = $request->url();
+        echo '<br>';
+        echo 'URL: ' . $url;
+        $method = $request->method();
+        echo '<br>';
+        echo 'Method: ' . $method;
+    }
+}
+
+Step 8: Now launch the php’s internal web server by executing the following command
+
+ php artisan serve
+
+Step 9: Register all the Middleware in the Kernel
+
+protected $routeMiddleware = [
+        'auth' => \App\Http\Middleware\Authenticate::class,
+        'auth.basic' => \Illuminate\Auth\Middleware\AuthenticateWithBasicAuth::class,
+        'guest' => \App\Http\Middleware\RedirectIfAuthenticated::class,
+        'throttle' => \Illuminate\Routing\Middleware\ThrottleRequests::class,
+        'Role' => \App\Http\Middleware\RoleMiddleware::class,
+        'terminate' => \App\Http\Middleware\TerminateMiddleware::class,
+        'First' => \App\Http\Middleware\FirstMiddleware::class,
+        'Second'=> \App\Http\Middleware\SecondMiddleware::class,
+    ];
+
+Step 10: Visit the following URL.
+
+http://localhost:8000/usercontroller/path
+
+Step 11: Get the following output
+
+First Middleware
+Second Middleware
+URI: usercontroller/path
+URL: http://localhost:8000/usercontroller/path
+Method: GET
+
+

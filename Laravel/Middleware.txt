@@ -1,0 +1,194 @@
+Step 1: Create RoleMiddleware by executing the following command:
+
+Mohammads-MacBook-Air:quickstart-basic mohammadselimmiah$ php artisan make:middleware RoleMiddleware
+Middleware created successfully.
+
+Step 2: After successful execution, you will find
+RoleMiddleware created in App\Http\Middleware.
+
+Step 3: Add the following code in the handle method of the newly created RoleMiddleware
+at app/Http/Middleware/RoleMiddleware.php.
+
+<?php
+
+namespace App\Http\Middleware;
+
+use Closure;
+
+class RoleMiddleware
+{
+    public function handle($request, Closure $next, $role)
+    {
+        echo "Role: ".$role;
+        return $next($request);
+    }
+}
+
+
+Step 4: Register the RoleMiddleware in app\Http\Kernel.php file.
+
+ 'Role' => \App\Http\Middleware\RoleMiddleware::class,
+
+protected $routeMiddleware = [
+        'auth' => \App\Http\Middleware\Authenticate::class,
+        'auth.basic' => \Illuminate\Auth\Middleware\AuthenticateWithBasicAuth::class,
+        'guest' => \App\Http\Middleware\RedirectIfAuthenticated::class,
+        'throttle' => \Illuminate\Routing\Middleware\ThrottleRequests::class,
+        'Role' => \App\Http\Middleware\RoleMiddleware::class,
+    ];
+
+
+Step 5: Execute the following command to create TestController:
+
+Mohammads-MacBook-Air:quickstart-basic mohammadselimmiah$ php artisan make:controller TestController --resource
+Controller created successfully.
+
+Step 6: After successful execution, you will find TestController.php in App\Http\Controllers.
+
+Step 7: Copy the following code to app/Http/TestController.php file.
+
+<?php
+namespace App\Http\Controllers;
+use Illuminate\Http\Request;
+use App\Http\Requests;
+use App\Http\Controllers\Controller;
+
+class TestController extends Controller
+{
+    public function index()
+    {
+        echo "<br>Test Controller.";
+    }
+
+    public function create()
+    {
+    }
+
+    public function store(Request $request)
+    {
+    }
+
+    public function show($id)
+    {
+    }
+
+    public function edit($id)
+    {
+    }
+
+    public function update(Request $request, $id)
+    {
+    }
+
+    public function destroy($id)
+    {
+    }
+}
+
+
+Step 8: Add the following line of code in app/Http/routes.php file
+
+Route::get('role',[
+'middleware' => 'Role:editor',
+'uses' => 'TestController@index',
+]);
+
+Step 9: Visit the following URL to test the Middleware with parameters
+http://localhost:8000/role
+
+Step 10: The output will appear as shown in the following
+
+Role: editor
+Test Controller.
+
+
+
+ =========================== Terminable Middleware ===========================
+Step 1: Create TerminateMiddleware 
+
+
+Mohammads-MacBook-Air:quickstart-basic mohammadselimmiah$ php artisan make:middleware TerminateMiddleware
+Middleware created successfully.
+
+Step 2: This will produce TerminateMiddleware.php in App\Http\Middleware
+
+Step 3: Copy the following code in the newly created TerminateMiddleware at app/Http/Middleware/TerminateMiddleware.php
+
+<?php
+namespace App\Http\Middleware;
+
+use Closure;
+
+class TerminateMiddleware
+{
+    public function handle($request, Closure $next)
+    {
+        echo "Executing statements of handle method of TerminateMiddleware.";
+        return $next($request);
+    }
+
+    public function terminate($request, $response)
+    {
+        echo "<br>Executing statements of terminate method of TerminateMiddleware.";
+    }
+}
+
+Step 4: Register the TerminateMiddleware in app\Http\Kernel.php file.
+
+'terminate' => \App\Http\Middleware\TerminateMiddleware::class,
+
+ protected $routeMiddleware = [
+        'auth' => \App\Http\Middleware\Authenticate::class,
+        'auth.basic' => \Illuminate\Auth\Middleware\AuthenticateWithBasicAuth::class,
+        'guest' => \App\Http\Middleware\RedirectIfAuthenticated::class,
+        'throttle' => \Illuminate\Routing\Middleware\ThrottleRequests::class,
+        'Role' => \App\Http\Middleware\RoleMiddleware::class,
+        'terminate' => \App\Http\Middleware\TerminateMiddleware::class,
+    ];
+
+Step 5: Execute the following command to create ABCController.
+
+php artisan make:controller ABCController
+
+
+Mohammads-MacBook-Air:quickstart-basic mohammadselimmiah$ php artisan make:controller ABCController
+Controller created successfully.
+
+Step 6: This will produce ABCController.php in App\Http\Controllers
+
+Step 7: Copy the following code to app/Http/ABCController.php file.
+
+<?php
+namespace App\Http\Controllers;
+
+use Illuminate\Http\Request;
+use App\Http\Requests;
+use App\Http\Controllers\Controller;
+
+class ABCController extends Controller
+{
+    public function index()
+    {
+        echo "<br>ABC Controller.";
+    }
+}
+
+Step 8: Add the following line of code in app/Http/routes.php file.
+
+Route::get('terminate',[
+'middleware' => 'terminate',
+'uses' => 'ABCController@index',
+]);
+
+
+Step 9: Visit the following URL to test the Terminable Middleware.
+http://localhost:8000/terminate
+
+Step 10: The output will appear as shown in the following
+
+Executing statements of handle method of TerminateMiddleware.
+ABC Controller.
+Executing statements of terminate method of TerminateMiddleware.
+
+
+

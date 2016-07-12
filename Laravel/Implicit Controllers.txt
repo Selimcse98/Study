@@ -1,0 +1,55 @@
+Step 1: Execute the below command to create a controller
+php artisan make:controller ImplicitController
+
+Mohammads-MacBook-Air:quickstart-basic mohammadselimmiah$ php artisan make:controller ImplicitController
+Controller created successfully.
+
+Step 2: Copy the following code to app/Http/Controllers/ImplicitController.php file.
+
+<?php
+
+namespace App\Http\Controllers;
+
+use Illuminate\Http\Request;
+
+use App\Http\Requests;
+use App\Http\Controllers\Controller;
+
+class ImplicitController extends Controller
+{
+
+    /**
+     * Responds to requests to GET /test */
+    public function getIndex()
+    {
+        echo 'index method';
+    }
+    /**
+     * Responds to requests to GET /test/show/1 */
+    public function getShow($id)
+    {
+        echo 'show method';
+    }
+    /**
+     * Responds to requests to GET /test/admin-profile */
+    public function getAdminProfile()
+    {
+        echo 'admin profile method';
+    }
+    /**
+     * Responds to requests to POST /test/profile */
+    public function postProfile()
+    {
+        echo 'profile method';
+    }
+}
+
+
+Step 3: Add the following line to app/Http/routes.php file 
+Route::controller('test','ImplicitController');
+
+Step 4: Get following output for corresponding URLs
+
+http://localhost:8000/test	index method
+http://localhost:8000/test/show/1 	show method
+http://localhost:8000/test/admin-profile 	admin profile method

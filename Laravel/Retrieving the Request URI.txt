@@ -1,0 +1,54 @@
+The “path” method is used to retrieve the requested URI. The “is” method is used to retrieve the requested URI which matches the particular pattern specified in the argument of the method. To get the full URL, we can use the “url” method.
+
+Example
+
+Step 1: Execute the below command to create a new controller called UriController.
+
+
+Mohammads-MacBook-Air:quickstart-basic mohammadselimmiah$ php artisan make:controller UriController
+Controller created successfully.
+
+
+Step 2: add following code to app/Http/Controllers/UriController.php
+
+<?php
+
+namespace App\Http\Controllers;
+
+use Illuminate\Http\Request;
+
+use App\Http\Requests;
+use App\Http\Controllers\Controller;
+
+class UriController extends Controller
+{
+    public function index(Request $request){
+// Usage of path method
+        $path = $request->path();
+        echo 'Path Method: '.$path;
+        echo '<br>';
+// Usage of is method
+        $pattern = $request->is('foo/*');
+        echo 'is Method: '.$pattern;
+        echo '<br>';
+// Usage of url method
+        $url = $request->url();
+        echo 'URL method: '.$url;
+    }
+}
+
+
+Step 3: Add the following line in the app/Http/route.php file.
+
+ Route::get('/foo/bar','UriController@index');
+
+Step 4: Visit the following URL.
+
+http://localhost:8000/foo/bar
+
+This will produce following output:
+
+Path Method: foo/bar
+is Method: 1
+URL method: http://localhost:8000/foo/bar
+
