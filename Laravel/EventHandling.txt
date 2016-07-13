@@ -1,0 +1,189 @@
+Assuming we have following table in database.
+
+CREATE TABLE `student` (
+  `Id` int(11) NOT NULL AUTO_INCREMENT,
+  `Name` varchar(25) NOT NULL,
+  PRIMARY KEY (`Id`)
+) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=utf8;
+
+Step 1: Create a view resources/views/stud_create.php
+
+<html>
+<head><title>Student Management | Add</title></head>
+<body>
+<form action="/addstudent" method="post">
+    <input type="hidden" name="_token" value="<?php echo csrf_token(); ?>"> <table>
+        <tr>
+            <td>Name</td>
+            <td><input type='text' name='stud_name' /></td> </tr>
+        <tr>
+            <td colspan='2'><input type='submit' value="Add student" /></td>
+        </tr>
+    </table>
+</form>
+</body>
+</html>
+
+
+Step 2: Create a controller called CreateStudentController.php which uses stud_create.php view
+
+php artisan make:controller CreateStudentController
+Controller created successfully.
+
+<?php
+
+namespace App\Http\Controllers;
+
+use Illuminate\Http\Request;
+use DB;
+
+use App\Http\Requests;
+use App\Http\Controllers\Controller;
+use App\Events\StudentAdded;
+
+use Event;
+
+class CreateStudentController extends Controller
+{
+    public function insertform(){
+        return view('stud_create');
+    }
+
+    public function insert(Request $request){
+        $name = $request->input('stud_name');
+        DB::insert('insert into student (name) values(?)',[$name]); //name is not case-sensitive as in SQL
+        echo "Record inserted successfully.<br/>";
+        echo '<a href="/event">Click Here</a> to go back.';
+
+        //firing an event
+        Event::fire(new StudentAdded($name));
+    }
+}
+
+
+Step 3: Create an event called StudentAdded 
+
+php artisan make:event StudentAdded
+Event created successfully.
+
+App\Events\StudentAdded.php
+
+<?php
+
+namespace App\Events;
+
+use App\Events\Event;
+use Illuminate\Queue\SerializesModels;
+use Illuminate\Contracts\Broadcasting\ShouldBroadcast;
+
+class StudentAdded extends Event
+{
+    use SerializesModels;
+
+    public $name;
+
+    public function __construct($name)
+    {
+        $this->name = $name;
+    }
+
+    public function broadcastOn()
+    {
+        return [];
+    }
+}
+
+
+Step 4: Registering StudentAdded.php Events / Listeners at App\Providers\EventServiceProvider as HandlerNewStudentAdded
+
+<?php
+
+namespace App\Providers;
+
+use Illuminate\Contracts\Events\Dispatcher as DispatcherContract;
+use Illuminate\Foundation\Support\Providers\EventServiceProvider as ServiceProvider;
+
+class EventServiceProvider extends ServiceProvider
+{
+    
+    protected $listen = [
+        'App\Events\SomeEvent' => ['App\Listeners\EventListener',],
+
+        'App\Events\StudentAdded' => ['App\Listeners\HandlerNewStudentAdded'],
+    ];
+
+    public function boot(DispatcherContract $events)
+    {
+        parent::boot($events);
+
+        //
+    }
+}
+
+
+Step 5: Create an event handler/Listener (app/Listeners) called HandlerNewStudentAdded.php
+
+$ php artisan event:generate
+Events and listeners generated successfully!
+
+
+<?php
+
+namespace App\Listeners;
+
+use App\Events\StudentAdded;
+use Illuminate\Queue\InteractsWithQueue;
+use Illuminate\Contracts\Queue\ShouldQueue;
+
+class HandlerNewStudentAdded
+{
+    
+    public function __construct()
+    {
+        //
+    }
+
+    
+    public function handle(StudentAdded $event)
+    {
+        //
+    }
+}
+
+Step 6: Now add code to the handle method above
+
+<?php
+
+namespace App\Listeners;
+
+use App\Events\StudentAdded;
+use Illuminate\Queue\InteractsWithQueue;
+use Illuminate\Contracts\Queue\ShouldQueue;
+
+class HandlerNewStudentAdded
+{
+    protected $name;
+    
+    public function __construct()
+    {
+        //
+    }
+
+    public function handle(StudentAdded $event)
+    {
+        $this->name = $event->name;
+        echo "<br>New Student added in database with name: ".$this->name;
+    }
+}
+
+
+
+Step 7: Add the following lines in app/Http/routes.php
+
+Route::get('event','CreateStudentController@insertform');
+Route::post('addstudent','CreateStudentController@insert');
+
+Step 7: Visit the following URL to test the event.
+
+http://localhost:8000/event
+

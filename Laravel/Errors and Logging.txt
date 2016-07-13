@@ -9,3 +9,67 @@ in config/app.php
 'log' => 'daily'
 You can see the generated log entries in storage/logs/laravel.log file.
 
+===============  Error Handling ==================================
+app\Exceptions\Handler class. This class contains two methods — report and render
+
+report() method
+report() method is used to report or log exception. It is also used to send log exceptions to external services like Sentry, Bugsnag etc.
+render() method
+render() method is used to render an exception into an HTTP response which will be sent back to browser.
+Beside these two methods, the app\Exceptions\Handler class contains an important property called “$dontReport”. This property takes an array of exception types that will not be logged.
+
+===================== Custom Error pages ====================================
+Step 1: Add the following lines in app/Http/routes.php.
+
+Route::get('/error',function(){
+     abort(404);
+});
+
+Step 2: Create a view file called resources/views/errors/404.blade.php
+
+<!DOCTYPE html>
+<html>
+<head>
+    <title>404</title>
+    <link href="https://fonts.googleapis.com/css?family=Lato:100"
+          rel="stylesheet" type="text/css">
+    <style>
+        html, body {
+            height: 100%;
+        }
+        body {
+            margin: 0;
+            padding: 0;
+            width: 100%;
+            color: #B0BEC5;
+            display: table;
+            font-weight: 100;
+            font-family: 'Lato';
+        }
+        .container {
+            text-align: center;
+            display: table-cell;
+            vertical-align: middle;
+        }
+        .content {
+            text-align: center;
+            display: inline-block;
+        }
+        .title {
+            font-size: 72px;
+            margin-bottom: 40px;
+        } </style>
+</head>
+<body>
+<div class="container">
+    <div class="content">
+        <div class="title">404 Error</div>
+    </div>
+</div>
+</body>
+</html>
+
+Step 3: Visit the following URL to test the event.
+
+ http://localhost:8000/error
+

@@ -1,1 +1,69 @@
 create a view file where a user can select a file to be uploaded and a controller where uploaded files will be processed.
+
+Step 1: Create a view file called resources/views/uploadfile.php and copy the following code in that file
+
+<html>
+	<body>
+		<?php
+			echo Form::open(array('url' => '/uploadfile', 'files' => 'true'));
+			echo 'Select the file to upload.';
+			echo Form::file('image');
+			echo Form::submit('Upload File');
+			echo Form::close();
+		?>
+	</body>
+</html>
+
+Step 2: Create a controller called UploadFileController
+php artisan make:controller UploadFileController
+Controller created successfully.
+
+<?php
+
+namespace App\Http\Controllers;
+
+use Illuminate\Http\Request;
+
+use App\Http\Requests;
+
+class UploadFileController extends Controller
+{
+    public function index(){
+        return view('uploadfile');
+    }
+
+    public function showUploadFile(Request $request){
+        $file = $request->file('image');
+//Display File Name
+        echo 'File Name: '.$file->getClientOriginalName();
+        echo '<br>';
+//Display File Extension
+        echo 'File Extension: '.$file->getClientOriginalExtension(); echo '<br>';
+//Display File Real Path
+        echo 'File Real Path: '.$file->getRealPath(); echo '<br>';
+//Display File Size
+        echo 'File Size: '.$file->getSize();
+        echo '<br>';
+//Display File Mime Type
+        echo 'File Mime Type: '.$file->getMimeType();
+//Move Uploaded File
+        $destinationPath = 'uploads';
+        $file->move($destinationPath,$file->getClientOriginalName());
+    }
+}
+
+Step 3: Add the following lines in app/Http/routes.php.
+
+Route::get('/uploadfile','UploadFileController@index'); 
+Route::post('/uploadfile','UploadFileController@showUploadFile');
+
+browse http://localhost:8000/uploadfile
+
+Select a file and click upload
+
+File Name: HCC.pdf
+File Extension: pdf
+File Real Path: /private/var/folders/ry/1wk2yl9n2z3fd_2l07mxf9ch0000gn/T/phplnCwfH
+File Size: 40852
+File Mime Type: application/pdf
+

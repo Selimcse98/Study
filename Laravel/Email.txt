@@ -1,0 +1,96 @@
+Step 1: We will now send an email from Gmail account and for that you need to configure your Gmail account in Laravel environment file — .env file. Enable 2-step verification in your Gmail account and create an application specific password followed by changing the .env parameters as shown below.
+
+
+MAIL_DRIVER=smtp
+MAIL_HOST=smtp.gmail.com
+MAIL_PORT=587
+MAIL_USERNAME=selimcse98@gmail.com
+MAIL_PASSWORD=xxxxxxxx
+MAIL_ENCRYPTION=tls
+
+Step 2: After changing the .env file execute the below two commands to clear the cache and restart the Laravel server.
+
+php artisan config:cache
+
+Mohammads-MacBook-Air:quickstart-basic mohammadselimmiah$ php artisan config:cache
+Configuration cache cleared!
+Configuration cached successfully!
+
+Step 3: Create a controller called MailController
+
+php artisan make:controller MailController
+
+Step 4: Copy the following code in app/Http/Controllers/MailController.php file.
+
+<?php
+
+namespace App\Http\Controllers;
+
+use Illuminate\Http\Request;
+
+use Mail;
+use App\Http\Requests;
+
+class MailController extends Controller
+{
+    public function basic_email(){
+        $data = array('name'=>"Virat Gandhi");
+        Mail::send(['text'=>'mail'], $data, function($message) {
+            $message->to('selimcse98@gmail.com', 'Tutorials Point')->subject('Laravel Basic Testing Mail');
+                  $message->from('selimcse98@gmail.com','Virat Gandhi');
+            });
+        echo "Basic Email Sent. Check your inbox.";
+    }
+
+    public function html_email(){
+        $data = array('name'=>"Virat Gandhi");
+        Mail::send('mail', $data, function($message) {
+            $message->to('selimcse98@gmail.com', 'Tutorials Point')->subject('Laravel HTML Testing Mail');
+          $message->from('selimcse98@gmail.com','Virat Gandhi'); });
+        echo "HTML Email Sent. Check your inbox.";
+    }
+
+    public function attachment_email(){
+        $data = array('name'=>"Virat Gandhi");
+        Mail::send('mail', $data, function($message) {
+            $message->to('selimcse98@gmail.com', 'Tutorials Point')->subject('Laravel Testing Mail with Attachment');
+            $message->attach('C:\laravel- master\laravel\public\uploads\image.png');
+            $message->attach('C:\laravel- master\laravel\public\uploads\test.txt');
+            $message->from('selimcse98@gmail.com','Virat Gandhi');
+    });
+        echo "Email Sent with attachment. Check your inbox.";
+    }
+}
+
+Step 5: Copy the following code in resources/views/mail.blade.php file.
+
+<h1>Hi, {{ $name }}</h1>
+l<p>Sending Mail from Laravel.
+</p>
+
+Step 6: Add the following lines in app/Http/routes.php.
+
+Route::get('sendbasicemail','MailController@basic_email');
+Route::get('sendhtmlemail','MailController@html_email');
+Route::get('sendattachmentemail','MailController@attachment_email');
+
+Step 7: Visit following url
+
+http://localhost:8000/sendbasicemail
+
+Step 8: Check your mailbox, following email should be there.
+
+Subject: Laravel Basic Testing Mail
+Body: 
+<h1>Hi, Virat Gandhi</h1>
+l<p>Sending Mail from Laravel.</p>
+
+http://localhost:8000/sendhtmlemail
+ http://localhost:8000/sendattachmentemail
+=================== Special Note ===========================
+From your Gmail account you have to turn on less secure apps.
+https://myaccount.google.com/security?pli=1
+Allow less secure apps: OFF
+
+
+
