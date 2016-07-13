@@ -1,0 +1,58 @@
+Accessing Session Data: $value = $request->session()->get('key');
+Storing Session Data: $request->session()->put('key', 'value');
+Deleting Session Data: $request->session()->forget('key');
+
+Example
+Step 1: Create a controller called SessionController
+
+php artisan make:controller SessionController
+Controller created successfully.
+
+Step 2: Copy the following code in a file at app/Http/Controllers/SessionController.php.
+
+<?php
+
+namespace App\Http\Controllers;
+
+use Illuminate\Http\Request;
+
+use App\Http\Requests;
+use App\Http\Controllers\Controller;
+
+class SessionController extends Controller
+{
+    public function accessSessionData(Request $request){
+        if($request->session()->has('my_name'))
+            echo $request->session()->get('my_name');
+        else
+            echo 'No data in the session';
+    }
+
+    public function storeSessionData(Request $request){
+        $request->session()->put('my_name','Virat Gandhi');
+        echo "Data has been added to session";
+    }
+
+    public function deleteSessionData(Request $request){
+        $request->session()->forget('my_name');
+        echo "Data has been removed from session.";
+    }
+}
+
+Step 3: Add the following lines at app/Http/routes.php file.
+Route::get('session/get','SessionController@accessSessionData');
+Route::get('session/set','SessionController@storeSessionData');
+Route::get('session/remove','SessionController@deleteSessionData');
+
+Step 4: Visit the following URL to set data in session
+http://localhost:8000/session/set
+
+Step 5: Visit the following URL to get data from session
+http://localhost:8000/session/get
+
+ http://localhost:8000/session/remove
+=============================================
+in the controller
+use Illuminate\Support\Facades\Session;
+
+dd(Session::all()); //all available sessions will be printed

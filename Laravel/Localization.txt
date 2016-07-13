@@ -1,0 +1,52 @@
+Step 1: Create 3 files for languages — English, French, and German. Save English file at resources/lang/en/lang.php
+
+resources/lang/en/lang.php
+resources/lang/fr/lang.php
+resources/lang/de/lang.php
+
+<?php
+    return [
+        'msg' => 'Laravel Internationalization example.'
+    ];
+?>
+
+Step 2: Create a controller called LocalizationController 
+
+php artisan make:controller LocalizationController 
+Controller created successfully.
+
+Step 3: Copy the following code to file app/Http/Controllers/LocalizationController.php
+
+<?php
+
+namespace App\Http\Controllers;
+
+use Illuminate\Http\Request;
+
+use App\Http\Requests;
+use App\Http\Controllers\Controller;
+
+class LocalizationController extends Controller
+{
+    public function index(Request $request, $locale){
+        //set’s application’s locale
+        app()->setLocale($locale);
+//Gets the translated message and displays it
+        echo trans('lang.msg');
+    }
+}
+
+
+
+Step 4: Add a route for LocalizationController in app/Http/routes.php file. Notice that we are passing {locale} argument after localization/ which we will use to see output in different language.
+
+Route::get('localization/{locale}','LocalizationController@index');
+
+
+Step 5: Now, let us visit the different URLs to see all different languages. Execute the below URL to see output in English language.
+
+http://localhost:8000/localization/en
+http://localhost:8000/localization/fr
+http://localhost:8000/localization/de
+
+

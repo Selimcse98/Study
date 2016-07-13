@@ -1,0 +1,93 @@
+Laravel Form and HTML https://laravel.com/docs/4.2/html
+
+Step 1: Create a controller called ValidationController
+php artisan make:controller ValidationController
+Controller created successfully.
+
+Step 2: Copy the following code in app/Http/Controllers/ValidationController.php file.
+
+<?php
+
+namespace App\Http\Controllers;
+
+use Illuminate\Http\Request;
+
+use App\Http\Requests;
+use App\Http\Controllers\Controller;
+
+class ValidationController extends Controller
+{
+    public function showform(){
+        return view('login');
+    }
+
+    public function validateform(Request $request){
+        print_r($request->all());
+        $this->validate($request,[
+            'username'=>'required|max:8', 'password'=>'required'
+        ]);
+    }
+}
+
+
+Step 3: Create a view file called resources/views/login.blade.php and copy the following code in that file.
+
+<html>
+<head>
+    <title>Login Form</title>
+</head>
+<body>
+@if (count($errors) > 0)
+    <div class="alert alert-danger">
+        <ul>
+            @foreach ($errors->all() as $error)
+                <li>{{ $error }}</li>
+            @endforeach
+        </ul>
+    </div>
+@endif
+
+<?php echo Form::open(array('url'=>'/validation')); ?>
+<table border='1'>
+    <tr>
+        <td align='center' colspan='2'>Login</td>
+    </tr>
+    <tr>
+        <td>Username</td>
+        <td><?php echo Form::text('username'); ?></td>
+    </tr>
+    <tr>
+        <td>Password</td>
+        <td><?php echo Form::password('password'); ?></td> </tr>
+    <tr>
+        <td align='center' colspan='2'><?php echo Form::submit('Login'); ?></td>
+    </tr>
+</table>
+<?php echo Form::close(); ?>
+
+</body>
+</html>
+
+Step 4: Add the following lines in app/Http/routes.php.
+
+Route::get('/validation','ValidationController@showform');
+Route::post('/validation','ValidationController@validateform');
+
+Visit: 
+http://localhost:8000/validation
+
+Step 5: Output analysis
+
+invalid username:
+Array ( [_token] => Xx1H1mWqiLWs3QYPnPzbWkHSNCH9q7amtspLn3Hi [username] => selimcse98@gmail.com [password] => jdkljflkdjf ) Redirecting to http://localhost:8000/validation.
+
+Array ( [_token] => Xx1H1mWqiLWs3QYPnPzbWkHSNCH9q7amtspLn3Hi [username] => fdfd [password] => ) Redirecting to http://localhost:8000/validation.
+
+* The username may not be greater than 8 characters.
+* The password field is required.
+
+
+valid username:
+Array ( [_token] => Xx1H1mWqiLWs3QYPnPzbWkHSNCH9q7amtspLn3Hi [username] => selimcse [password] => selim )
+
+

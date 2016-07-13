@@ -1,3 +1,5 @@
+https://laravel.com/docs/4.2/html
+
 Laravel provides various in built tags to handle HTML forms easily and securely. All the major elements of HTML are generated using Laravel. To support this, we need to add HTML package to Laravel using composer.
 
 Step 1: Execute the following command to proceed with the same.
