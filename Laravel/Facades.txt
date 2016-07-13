@@ -1,0 +1,82 @@
+Facades provide a "static" interface to classes that are available in the application's service container. Laravel "facades" serve as "static proxies" to underlying classes in the service container, providing the benefit of a terse, expressive syntax while maintaining more testability and flexibility than traditional static methods.
+
+Step 1: Create a service provider called TestFacadesServiceProvider
+
+$ php artisan make:provider TestFacadesServiceProvider
+Provider created successfully.
+
+this will create TestFacadesServiceProvider.php in App\Providers.
+
+Step 2: Create a class called App/Test/TestFacades.php
+
+<?php
+
+namespace App\Test;
+
+class TestFacades{
+    public static function testingFacades(){
+        echo "Testing the Facades in Laravel.";
+    }
+}
+?>
+
+Step 3: Create a Facade class called App/Test/Facades/TestFacades.php
+
+<?php
+namespace app\Test\Facades;
+
+use Illuminate\Support\Facades\Facade;
+
+class TestFacades extends Facade{
+    protected static function getFacadeAccessor() {
+        return 'test';
+    }
+}
+
+Step 4: Use TestFacadesServiceProvider.php created at Step 1
+
+<?php
+
+namespace App\Providers;
+
+use App;
+
+use Illuminate\Support\ServiceProvider;
+
+class TestFacadesServiceProvider extends ServiceProvider
+{
+    
+    public function boot()
+    {
+        //
+    }
+    
+    public function register()
+    {
+        App::bind('test',function()
+        {
+            return new \App\Test\TestFacades;
+        });
+    }
+}
+
+
+Step 5: Add a service provider in a file config/app.php
+
+Add provider: App\Providers\TestFacadesServiceProvider::class,
+Add Alias: 'TestFacades' => App\Test\Facades\TestFacades::class,
+
+Step 6: Add the following lines in app/Http/routes.php.
+use App\Test\TestFacades;
+Route::get('/facadeex', function(){
+	return TestFacades::testingFacades();
+});
+
+Step 7: Browse URL
+
+http://localhost:8000/facadeex
+
+output:
+Testing the Facades in Laravel.
+
+
