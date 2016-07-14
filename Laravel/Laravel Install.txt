@@ -332,4 +332,7 @@ Options:
 Help:
  Generate the missing events and listeners based on registration
 
+7. Importing projects downloaded from GitHub
 
+Run: composer install
+Then try: php artisan serve

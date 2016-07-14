@@ -1,0 +1,44 @@
+config/database.php
+
+Configure database at .env file
+
+DB_HOST=mysql3.gear.host
+DB_DATABASE=laravel1
+DB_USERNAME=laravel1
+DB_PASSWORD=xxxxxxxx
+
+php artisan make:migration create_tasks_table --create=tasks 
+//This will create the php file 2015_10_27_141258_create_tasks_table.php in the App\Database\Migrations\ folder which will ultimately create tasks table
+
+Schema::create('tasks', function (Blueprint $table) {
+            $table->increments('id');
+            $table->string('name');
+            $table->timestamps();
+        });
+
+
+php artisan migrate
+//This command will fire following SQL command in the configured database
+
+CREATE TABLE `tasks` (
+ `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
+ `name` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
+ `created_at` timestamp NULL DEFAULT NULL,
+ `updated_at` timestamp NULL DEFAULT NULL,
+ PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci; 
+
+
+php artisan make:model Task
+//Task Model will be created unser App folder. This model will correspond to tasks table in the database
+
+<?php
+
+namespace App;
+
+use Illuminate\Database\Eloquent\Model;
+
+class Task extends Model
+{
+    //
+}

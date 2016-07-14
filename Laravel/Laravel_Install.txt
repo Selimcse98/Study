@@ -559,7 +559,8 @@ cd quickstart-basic/
 composer install
 php artisan migrate
 php artisan serve //To run the IIS
-php artisan make:migration create_tasks_table --create=tasks //This will create the php file 2015_10_27_141258_create_tasks_table.php in the App\Database\Migrations\ folder which will ultimately create tasks table
+php artisan make:migration create_tasks_table --create=tasks 
+//This will create the php file 2015_10_27_141258_create_tasks_table.php in the App\Database\Migrations\ folder which will ultimately create tasks table
 
 Schema::create('tasks', function (Blueprint $table) {
             $table->increments('id');
