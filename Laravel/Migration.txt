@@ -42,3 +42,90 @@ class Task extends Model
 {
     //
 }
+
+
+================ Model vs Table =======================
+//======Migration 
+<?php
+
+use Illuminate\Database\Schema\Blueprint;
+use Illuminate\Database\Migrations\Migration;
+
+class CreatePostsTable extends Migration
+{
+    /**
+     * Run the migrations.
+     *
+     * @return void
+     */
+    public function up()
+    {
+        Schema::create('posts', function (Blueprint $table) {
+            $table->increments('id');
+            $table->string('title');
+            $table->text('body');
+            $table->timestamps();
+        });
+    }
+
+    /**
+     * Reverse the migrations.
+     *
+     * @return void
+     */
+    public function down()
+    {
+        Schema::drop('posts');
+    }
+}
+
+//=======Following is a Post model will 
+//== php artisan make:model Post
+<?php
+
+namespace App;
+
+use Illuminate\Database\Eloquent\Model;
+
+class Post extends Model
+{
+    public function category()
+    {
+    	return $this->belongsTo('App\Category');
+    }
+
+    public function tags()
+    {
+    	return $this->belongsToMany('App\Tag');
+    }
+}
+
+//==========This will correspond to following Table
+CREATE TABLE `posts` (
+  `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
+  `title` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
+  `body` text COLLATE utf8_unicode_ci NOT NULL,
+  `slug` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
+  `category_id` int(10) unsigned DEFAULT NULL,
+  `created_at` timestamp NULL DEFAULT NULL,
+  `updated_at` timestamp NULL DEFAULT NULL,
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `posts_slug_unique` (`slug`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+
+CREATE TABLE `tags` (
+  `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
+  `name` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
+  `created_at` timestamp NULL DEFAULT NULL,
+  `updated_at` timestamp NULL DEFAULT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+
+CREATE TABLE `categories` (
+  `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
+  `name` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
+  `created_at` timestamp NULL DEFAULT NULL,
+  `updated_at` timestamp NULL DEFAULT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+
