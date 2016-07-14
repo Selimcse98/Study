@@ -7,7 +7,12 @@ CREATE TABLE shop (
     PRIMARY KEY(article, dealer));
 
 SHOW CREATE TABLE shop    
-shop	CREATE TABLE `shop` (   `article` int(4) unsigned zerofill NOT NULL DEFAULT '0000',   `dealer` char(20) NOT NULL DEFAULT '',   `price` double(16,2) NOT NULL DEFAULT '0.00',   PRIMARY KEY (`article`,`dealer`) ) ENGINE=InnoDB DEFAULT CHARSET=utf8    
+shop	CREATE TABLE `shop` (
+   `article` int(4) unsigned zerofill NOT NULL DEFAULT '0000',
+   `dealer` char(20) NOT NULL DEFAULT '',
+   `price` double(16,2) NOT NULL DEFAULT '0.00',
+   PRIMARY KEY (`article`,`dealer`)
+ ) ENGINE=InnoDB DEFAULT CHARSET=utf8    
     
 INSERT INTO shop VALUES
     (1,'A',3.45),(1,'B',3.99),(2,'A',10.99),(3,'B',1.45),
@@ -69,7 +74,14 @@ SELECT last_insert_id() from animals limit 1;
 insert into personbackup select * from person
 
 3. primary and foreign key relationsip
-CREATE TABLE `employees` (   `EmployeeID` int(11) NOT NULL,   `LastName` varchar(50) NOT NULL,   `FirstName` varchar(50) NOT NULL,   `BirthDate` date NOT NULL,   `Photo` varchar(50) NOT NULL,   UNIQUE KEY `EmployeeID` (`EmployeeID`) ) ENGINE=MyISAM DEFAULT CHARSET=utf8
+CREATE TABLE `employees` (
+   `EmployeeID` int(11) NOT NULL,
+   `LastName` varchar(50) NOT NULL,
+   `FirstName` varchar(50) NOT NULL,
+   `BirthDate` date NOT NULL,
+   `Photo` varchar(50) NOT NULL,
+   UNIQUE KEY `EmployeeID` (`EmployeeID`)
+ ) ENGINE=MyISAM DEFAULT CHARSET=utf8
 
 alter table employees engine = InnoDB; //because MyISAM table doesn't accept foreign key
 
@@ -114,4 +126,41 @@ CREATE TABLE `employee` (
 ) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=latin1
 
 show TABLE STATUS;
+
+
+CREATE SCHEMA `selimmiah` DEFAULT CHARACTER SET utf8 ;
+
+
+CREATE TABLE `posts` (
+  `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
+  `title` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
+  `body` text COLLATE utf8_unicode_ci NOT NULL,
+  `slug` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
+  `category_id` int(10) unsigned DEFAULT NULL,
+  `created_at` timestamp NULL DEFAULT NULL,
+  `updated_at` timestamp NULL DEFAULT NULL,
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `posts_slug_unique` (`slug`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+
+
+CREATE TABLE `post_tag` (
+  `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
+  `post_id` int(10) unsigned NOT NULL,
+  `tag_id` int(10) unsigned NOT NULL,
+  PRIMARY KEY (`id`),
+  KEY `post_tag_post_id_foreign` (`post_id`),
+  KEY `post_tag_tag_id_foreign` (`tag_id`),
+  CONSTRAINT `post_tag_post_id_foreign` FOREIGN KEY (`post_id`) REFERENCES `posts` (`id`),
+  CONSTRAINT `post_tag_tag_id_foreign` FOREIGN KEY (`tag_id`) REFERENCES `tags` (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+
+
+CREATE TABLE `tags` (
+  `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
+  `name` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
+  `created_at` timestamp NULL DEFAULT NULL,
+  `updated_at` timestamp NULL DEFAULT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
