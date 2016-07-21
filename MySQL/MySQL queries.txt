@@ -164,3 +164,46 @@ CREATE TABLE `tags` (
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
+USE `laravel1`;
+
+SQL> SELECT @@global.max_allowed_packet;
+268435456
+
+SQL> SHOW DATABASES;
+information_schema
+laravel1
+
+SQL> SHOW /*!50002 FULL*/ TABLES;
+
+categories  BASE TABLE
+comments  BASE TABLE
+contacts  BASE TABLE
+laravel BASE TABLE
+migrations  BASE TABLE
+password_resets BASE TABLE
+posts BASE TABLE
+roles BASE TABLE
+student BASE TABLE
+tags  BASE TABLE
+tasks BASE TABLE
+users BASE TABLE
+
+SQL> SHOW /* This is just comment */ TABLES;
+
+categories
+comments
+contacts
+laravel
+migrations
+password_resets
+posts
+roles
+student
+tags
+tasks
+users
+
+
+SQL> SHOW VARIABLES LIKE 'character_set_database';
+
+character_set_database  utf8

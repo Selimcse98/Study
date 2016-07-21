@@ -1,0 +1,40 @@
+ ============================ Laravel Rendering view from controller ============================
+
+1. Controller passing an array (key,value) pair:
+return view('pages.about')->with([
+            'email' => $email,
+            'fullname' => $fullname
+        ]);
+
+View/blade:
+<p>Email : {{$email}}  <br> Name: {{$fullname}}</p>        
+
+2. Controller passing a variable
+return view('pages.about')->with('email',$email);
+
+view/blade:
+<p> Email: {{$email}} </p>
+<p> Email: <?= $email ?> </p>
+
+3. Controller Passing a variable just capitalising the Key 
+return view('pages.about')->withEmail($email); //email is the key and $email is the value
+
+view/blade:
+<p>Email : {{$email}} </p>
+
+4. Controller Passing multible variable just capitalising the keys
+return view('pages.about')->withEmail($email)->withFullname($fullname);
+
+view/blade:
+<p>Email : {{$email}} </p>
+<p>Fullname: {{$fullname}} </p>
+
+5. Controller passing an array variable
+$data = [];
+$data['email'] = $email;
+$data['fullname'] = $fullname;
+return view('pages.about')->withData($data);
+
+view/blade:
+<p>Email : {{$data['email']}} </p>
+<p>Fullname: {{$data['fullname']}} </p>
