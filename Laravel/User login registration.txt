@@ -1,0 +1,70 @@
+php artisan make:auth
+
+namespace App\Http\Controllers\Auth;
+class AuthController extends Controller
+
+protected function create(array $data)
+    {
+        return User::create([
+            'name' => $data['name'],
+            'email' => $data['email'],
+            'password' => bcrypt($data['password']),
+        ]);
+    }
+
+
+INSERT INTO `users` (`id`, `name`, `email`, `password`, `remember_token`, `created_at`, `updated_at`) VALUES ('3', 'Moon', 'wahida_moon@hotmail.com', 'Mursaleen', 'kldjfdsdflkdjdjkf', NULL, NULL);
+
+User::create(array(
+        'name'     => 'Chris Sevilleja',
+        'username' => 'sevilayha',
+        'email'    => 'chris@scotch.io',
+        'password' => Hash::make('awesome'),
+    ));
+
+routes.php
+
+// Authentication routes...
+Route::get('auth/login', 'Auth\AuthController@getLogin');
+Route::post('auth/login', 'Auth\AuthController@postLogin');
+Route::get('auth/logout', 'Auth\AuthController@getLogout');
+
+// Registration routes...
+Route::get('auth/register', 'Auth\AuthController@getRegister');
+Route::post('auth/register', 'Auth\AuthController@postRegister');
+
+Route::controllers([
+  'auth' => 'Auth\AuthController',
+  'password' => 'Auth\PasswordController',
+]);
+
+public function getRegister() //verbs on the controller define the type of route
+
+yourdomain.com/auth/register
+
+
+======================== AuthController ========================
+<?php
+
+namespace App\Http\Controllers;
+
+use Auth;
+
+class AuthController extends Controller
+{
+    /**
+     * Handle an authentication attempt.
+     *
+     * @return Response
+     */
+    public function authenticate()
+    {
+        if (Auth::attempt(['email' => $email, 'password' => $password])) {
+            // Authentication passed...
+            return redirect()->intended('dashboard');
+        }
+    }
+}
+
+
+

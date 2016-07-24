@@ -1,3 +1,42 @@
+Available Column Types
+https://laravel.com/docs/5.2/migrations
+Column Modifiers
+
+Schema::table('users', function ($table) {
+    $table->string('email')->nullable(); //nullable indicates optional
+});
+
+->first() 	Place the column "first" in the table (MySQL Only)
+->after('column') 	Place the column "after" another column (MySQL Only)
+->nullable() 	Allow NULL values to be inserted into the column
+->default($value) 	Specify a "default" value for the column
+->unsigned() 	Set integer columns to UNSIGNED
+->comment('my comment') 	Add a comment to a column
+
+name column size change from 25 to 50
+Schema::table('users', function ($table) {
+    $table->string('name', 50)->change();
+});
+
+modify a column to be nullable:
+Schema::table('users', function ($table) {
+    $table->string('name', 50)->nullable()->change();
+});
+
+Schema::table('users', function ($table) {
+    $table->renameColumn('from', 'to');
+});
+
+Schema::table('users', function ($table) {
+    $table->dropColumn('votes');
+});
+
+drop multiple columns 
+Schema::table('users', function ($table) {
+    $table->dropColumn(['votes', 'avatar', 'location']);
+});
+
+$table->string('email')->unique(); or $table->unique('email');
 ==================================================================== Queries ====================================================================
 Model::all() => select * from model
 
@@ -15,7 +54,28 @@ $table->integer('category_id')->nullable()->after('slug')->unsigned(); //alter t
 										=> ALTER TABLE `posts` ADD COLUMN `category_id` int(10) unsigned DEFAULT NULL AFTER `slug`;
 												
 
+==================================================================== registration controller ====================================================================
+namespace App\Http\Controllers\Auth;
+class AuthController extends Controller
 
+protected function create(array $data)
+    {
+        return User::create([
+            'name' => $data['name'],
+            'email' => $data['email'],
+            'password' => bcrypt($data['password']),
+        ]);
+    }
+
+
+INSERT INTO `users` (`id`, `name`, `email`, `password`, `remember_token`, `created_at`, `updated_at`) VALUES ('3', 'Moon', 'wahida_moon@hotmail.com', 'Mursaleen', 'kldjfdsdflkdjdjkf', NULL, NULL);
+
+User::create(array(
+        'name'     => 'Chris Sevilleja',
+        'username' => 'sevilayha',
+        'email'    => 'chris@scotch.io',
+        'password' => Hash::make('awesome'),
+    ));
 
 ==================================================================== Model vs SQL commands ====================================================================
 $table->increments('id'); `id` int(10) unsigned NOT NULL AUTO_INCREMENT, //Default PRIMARY KEY (`id`),

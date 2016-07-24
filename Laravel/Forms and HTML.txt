@@ -1,5 +1,36 @@
 https://laravel.com/docs/4.2/html
 
+==================================== HTML Linked Route=======================================================================
+http://laravel-recipes.com/recipes/190/generating-a-html-link-to-a-named-route
+Generating a HTML Link to a Named Route
+
+routes.php : URI-auth/login, Name-login
+{{ HTML::linkRoute('login') }} translates to http://localhost:8000/auth/login
+
+routes.php : URI-auth/logout, Name-logout
+{{ Html::linkRoute('logout') }} translates to http://localhost:8000/auth/logout
+
+routes.php : URI-blog, Name-blog.index
+{{ Html::linkRoute('blog.index') }} translates to http://localhost:8000/blog
+
+routes.php : URI-posts/create, Name-posts.create
+{{ Html::linkRoute('posts.create') }} translates to http://localhost:8000/posts/create
+{{ Html::linkRoute('posts.create', 'Create Post Link') }} translates <a href="http://localhost:8000/posts/create">Create Post Link</a>
+
+to pass argument send array as 3rd parameter
+routes.php : URI-comments/{id}, Name-comments.update
+{{ Html::linkRoute('comments.update', 'Create Post Link',array(1)) }} translates <a href="http://localhost:8000/comments/1">Create Post Link</a>
+
+passing 4th parameter as the class type to anchor
+{{ Html::linkRoute('comments.update', 'Create Post Link',array(1),array('class' => 'btn btn-lg btn-block btn-success')) }}
+this will create a large success button to click
+
+=============================================  adding name to route URI   ==============================================================
+Route::get('auth/register', ['as'=> 'register', 'uses'=>'Auth\AuthController@getRegister']); //this will create following inte routes.php
+URI: auth/register
+Name: register
+
+===========================================================================================================
 Laravel provides various in built tags to handle HTML forms easily and securely. All the major elements of HTML are generated using Laravel. To support this, we need to add HTML package to Laravel using composer.
 
 Step 1: Execute the following command to proceed with the same.

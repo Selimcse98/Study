@@ -190,5 +190,26 @@ Executing statements of handle method of TerminateMiddleware.
 ABC Controller.
 Executing statements of terminate method of TerminateMiddleware.
 
+=======================================================================================================================================================================
 
+<?php namespace App\Http\Middleware;
+use Closure;
+class OnlyAjax
+{
+    public function handle($request, Closure $next)
+    {
+        if ( ! $request->ajax())
+            return response('Forbidden.', 403);
+        return $next($request);
+    }
+}
 
+register kernel
+protected $routeMiddleware = [
+        //... your original code
+        'ajax' => \App\Http\Middleware\OnlyAjax::class,
+    ];
+
+And finally attach the middleware to any route 
+post('search/{model}', ['as' => 'search', 'middleware' => 'ajax', 'uses' => 'SomeController@search']);
+    
