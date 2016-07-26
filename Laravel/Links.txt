@@ -1,6 +1,32 @@
 http://laravel-recipes.com/recipes/30/creating-a-laravel-project
-
-
+https://github.com/jelled/test.crud.laravel
+https://youtu.be/r40yAZAi6PQ
 https://www.youtube.com/watch?v=j2B5EfMvExU
 
 
+Open links
+https://www.codetutorial.io/laravel-5-rest-api-basic-authentication/
+https://github.com/dingo/api
+http://learninglaravel.net/laravel-5-rest-api-basic-authentication-tutorial
+http://www.programmableweb.com/news/how-to-build-restful-apis-using-php-and-laravel/how-to/2014/08/13
+http://www.tutorials.kode-blog.com/laravel-5-rest-api
+https://www.sitepoint.com/build-rest-resources-laravel/
+
+fink install
+http://www.finkproject.org/doc/bundled/install-first.php
+
+https://discussions.apple.com/thread/7139106?start=0&tstart=0
+https://teamtreehouse.com/community/when-i-type-in-sudo-aptget-update-i-get-command-not-found
+http://stackoverflow.com/questions/19688424/why-is-apt-get-function-not-working-in-terminal-on-mac-osx-10-9
+http://www.digimantra.com/howto/apple-aptget-command-mac/
+https://laracasts.com/discuss/channels/general-discussion/ext-mcrypt-the-requested-php-extension-mcrypt-is-missing
+https://github.com/pixelpeter/laravel5-woocommerce-api-client
+https://github.com/felixacdc/API_REST_Laravel5.1/blob/master/app/app/Http/routes.php
+https://github.com/nbinkunwar/laravel5_rest
+https://github.com/UniquelySimilar/laravel5-rest-api
+
+
+https://laracasts.com/discuss/channels/general-discussion/laravel-5-api-auth-for-a-mobile-app-or-another-web-application
+https://www.sitepoint.com/build-rest-resources-laravel/
+https://laracasts.com/series/incremental-api-development
+https://www.sitepoint.com/how-to-build-an-api-only-jwt-powered-laravel-app/
