@@ -1,0 +1,220 @@
+========================================== GET Request ==========================================
+$ curl --request GET http://localhost:8000/api/users/1/roles/owner
+{"user":{"id":1,"name":"John1 Doe1","email":"john.doe1@gmail.com","created_at":"2016-07-27 17:57:23","updated_at":"2016-07-27 17:57:23"}}
+
+same request using the -i flag.
+$ curl -i --request GET http://localhost:8000/api/users/1/roles/owner
+HTTP/1.0 200 OK
+Host: localhost:8000
+Connection: close
+X-Powered-By: PHP/5.5.34
+Cache-Control: private, must-revalidate
+content-type: application/json
+ETag: "07475c57d37bdf5f877b41d7f404012c"
+Date: Thu, 28 Jul 2016 02:29:08 GMT
+
+{"user":{"id":1,"name":"John1 Doe1","email":"john.doe1@gmail.com","created_at":"2016-07-27 17:57:23","updated_at":"2016-07-27 17:57:23"}}
+
+
+same request excluding --request flag.
+$ curl -i  GET http://localhost:8000/api/users/1/roles/owner
+HTTP/1.1 302 Moved Temporarily
+Server: nginx
+Date: Thu, 28 Jul 2016 02:31:14 GMT
+Content-Type: text/html
+Content-Length: 154
+Connection: keep-alive
+Location: http://google.dodo.com.au/search.html?q=GET
+ID: g2
+
+<html>
+<head><title>302 Found</title></head>
+<body bgcolor="white">
+<center><h1>302 Found</h1></center>
+<hr><center>nginx</center>
+</body>
+</html>
+HTTP/1.0 200 OK
+Host: localhost:8000
+Connection: close
+X-Powered-By: PHP/5.5.34
+Cache-Control: private, must-revalidate
+content-type: application/json
+ETag: "07475c57d37bdf5f877b41d7f404012c"
+Date: Thu, 28 Jul 2016 02:31:14 GMT
+
+{"user":{"id":1,"name":"John1 Doe1","email":"john.doe1@gmail.com","created_at":"2016-07-27 17:57:23","updated_at":"2016-07-27 17:57:23"}}
+
+
+========================================== POST Request ==========================================
+$ curl -X POST quiet-waters-1228.herokuapp.com/echo
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Unix and Linux Commands for Developers</title>
+  <link href="/assets/application.css" media="all" rel="stylesheet" />
+  <script src="/assets/application.js"></script>
+</head>
+<body>
+
+  <p>
+    <strong>url:</strong>
+    <span>
+      http://quiet-waters-1228.herokuapp.com/echo
+    </span>
+  </p>
+  <p>
+    <strong>method:</strong>
+    <span>
+      POST
+    </span>
+  </p>
+
+</body>
+</html>
+
+
+$ curl -X PUT quiet-waters-1228.herokuapp.com/echo
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Unix and Linux Commands for Developers</title>
+  <link href="/assets/application.css" media="all" rel="stylesheet" />
+  <script src="/assets/application.js"></script>
+</head>
+<body>
+
+  <p>
+    <strong>url:</strong>
+    <span>
+      http://quiet-waters-1228.herokuapp.com/echo
+    </span>
+  </p>
+  <p>
+    <strong>method:</strong>
+    <span>
+      PUT
+    </span>
+  </p>
+
+</body>
+</html>
+
+
+Sending parameters:
+$ curl -X POST "quiet-waters-1228.herokuapp.com/echo?fname=Mark&lname=Bates"
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Unix and Linux Commands for Developers</title>
+  <link href="/assets/application.css" media="all" rel="stylesheet" />
+  <script src="/assets/application.js"></script>
+</head>
+<body>
+
+  <p>
+    <strong>url:</strong>
+    <span>
+      http://quiet-waters-1228.herokuapp.com/echo?fname=Mark&lname=Bates
+    </span>
+  </p>
+  <p>
+    <strong>parameters:</strong>
+    <span>
+      {"fname"=>"Mark", "lname"=>"Bates"}
+    </span>
+  </p>
+  <p>
+    <strong>method:</strong>
+    <span>
+      POST
+    </span>
+  </p>
+
+</body>
+</html>
+
+
+Passing Data in a Request Body (-d)
+$ curl -X POST -d "fname=Mark&lname=Bates" quiet-waters-1228.herokuapp.com/echo
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Unix and Linux Commands for Developers</title>
+  <link href="/assets/application.css" media="all" rel="stylesheet" />
+  <script src="/assets/application.js"></script>
+</head>
+<body>
+
+  <p>
+    <strong>url:</strong>
+    <span>
+      http://quiet-waters-1228.herokuapp.com/echo
+    </span>
+  </p>
+  <p>
+    <strong>parameters:</strong>
+    <span>
+      {"fname"=>"Mark", "lname"=>"Bates"}
+    </span>
+  </p>
+  <p>
+    <strong>method:</strong>
+    <span>
+      POST
+    </span>
+  </p>
+  <p>
+    <strong>body:</strong>
+    <span>
+      fname=Mark&lname=Bates
+    </span>
+  </p>
+
+</body>
+</html>
+
+
+=== passing JSON via the -d flag
+$ curl -X POST -d "{\"name\":\"Mark\"}" quiet-waters-1228.herokuapp.com/echo
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Unix and Linux Commands for Developers</title>
+  <link href="/assets/application.css" media="all" rel="stylesheet" />
+  <script src="/assets/application.js"></script>
+</head>
+<body>
+
+  <p>
+    <strong>url:</strong>
+    <span>
+      http://quiet-waters-1228.herokuapp.com/echo
+    </span>
+  </p>
+  <p>
+    <strong>method:</strong>
+    <span>
+      POST
+    </span>
+  </p>
+  <p>
+    <strong>body:</strong>
+    <span>
+      {"name"=>"Mark"}
+    </span>
+  </p>
+
+</body>
+</html>
+
+
+=== JSON File for a Request Body (-d)
+form_data.json
+{
+  "lname": "Bates",
+  "fname": "Mark",
+  "site": "http://www.markbates.com",
+  "twitter": "http://twitter.com/markbates"
+}
+

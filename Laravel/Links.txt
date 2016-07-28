@@ -2,7 +2,7 @@ http://laravel-recipes.com/recipes/30/creating-a-laravel-project
 https://github.com/jelled/test.crud.laravel
 https://youtu.be/r40yAZAi6PQ
 https://www.youtube.com/watch?v=j2B5EfMvExU
-
+https://www.youtube.com/watch?v=QOU14L4xBis&list=PL_UnIDIwT95PiPV641VBnEwFAvswNZKuX
 
 Open links
 https://www.codetutorial.io/laravel-5-rest-api-basic-authentication/
@@ -30,3 +30,7 @@ https://laracasts.com/discuss/channels/general-discussion/laravel-5-api-auth-for
 https://www.sitepoint.com/build-rest-resources-laravel/
 https://laracasts.com/series/incremental-api-development
 https://www.sitepoint.com/how-to-build-an-api-only-jwt-powered-laravel-app/
+
+
+NetTuts
+https://tuts.codingo.me/dingo-api-quick-start

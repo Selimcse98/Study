@@ -1,0 +1,370 @@
+========================================== GET Request ==========================================
+$ curl --request GET http://localhost:8000/api/users/1/roles/owner
+{"user":{"id":1,"name":"John1 Doe1","email":"john.doe1@gmail.com","created_at":"2016-07-27 17:57:23","updated_at":"2016-07-27 17:57:23"}}
+
+same request using the -i flag.
+$ curl -i --request GET http://localhost:8000/api/users/1/roles/owner
+HTTP/1.0 200 OK
+Host: localhost:8000
+Connection: close
+X-Powered-By: PHP/5.5.34
+Cache-Control: private, must-revalidate
+content-type: application/json
+ETag: "07475c57d37bdf5f877b41d7f404012c"
+Date: Thu, 28 Jul 2016 02:29:08 GMT
+
+{"user":{"id":1,"name":"John1 Doe1","email":"john.doe1@gmail.com","created_at":"2016-07-27 17:57:23","updated_at":"2016-07-27 17:57:23"}}
+
+
+same request excluding --request flag.
+$ curl -i  GET http://localhost:8000/api/users/1/roles/owner
+HTTP/1.1 302 Moved Temporarily
+Server: nginx
+Date: Thu, 28 Jul 2016 02:31:14 GMT
+Content-Type: text/html
+Content-Length: 154
+Connection: keep-alive
+Location: http://google.dodo.com.au/search.html?q=GET
+ID: g2
+
+<html>
+<head><title>302 Found</title></head>
+<body bgcolor="white">
+<center><h1>302 Found</h1></center>
+<hr><center>nginx</center>
+</body>
+</html>
+HTTP/1.0 200 OK
+Host: localhost:8000
+Connection: close
+X-Powered-By: PHP/5.5.34
+Cache-Control: private, must-revalidate
+content-type: application/json
+ETag: "07475c57d37bdf5f877b41d7f404012c"
+Date: Thu, 28 Jul 2016 02:31:14 GMT
+
+{"user":{"id":1,"name":"John1 Doe1","email":"john.doe1@gmail.com","created_at":"2016-07-27 17:57:23","updated_at":"2016-07-27 17:57:23"}}
+
+
+========================================== POST Request ==========================================
+$ curl -X POST quiet-waters-1228.herokuapp.com/echo
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Unix and Linux Commands for Developers</title>
+  <link href="/assets/application.css" media="all" rel="stylesheet" />
+  <script src="/assets/application.js"></script>
+</head>
+<body>
+
+  <p>
+    <strong>url:</strong>
+    <span>
+      http://quiet-waters-1228.herokuapp.com/echo
+    </span>
+  </p>
+  <p>
+    <strong>method:</strong>
+    <span>
+      POST
+    </span>
+  </p>
+
+</body>
+</html>
+
+
+$ curl -X PUT quiet-waters-1228.herokuapp.com/echo
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Unix and Linux Commands for Developers</title>
+  <link href="/assets/application.css" media="all" rel="stylesheet" />
+  <script src="/assets/application.js"></script>
+</head>
+<body>
+
+  <p>
+    <strong>url:</strong>
+    <span>
+      http://quiet-waters-1228.herokuapp.com/echo
+    </span>
+  </p>
+  <p>
+    <strong>method:</strong>
+    <span>
+      PUT
+    </span>
+  </p>
+
+</body>
+</html>
+
+
+Sending parameters:
+$ curl -X POST "quiet-waters-1228.herokuapp.com/echo?fname=Mark&lname=Bates"
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Unix and Linux Commands for Developers</title>
+  <link href="/assets/application.css" media="all" rel="stylesheet" />
+  <script src="/assets/application.js"></script>
+</head>
+<body>
+
+  <p>
+    <strong>url:</strong>
+    <span>
+      http://quiet-waters-1228.herokuapp.com/echo?fname=Mark&lname=Bates
+    </span>
+  </p>
+  <p>
+    <strong>parameters:</strong>
+    <span>
+      {"fname"=>"Mark", "lname"=>"Bates"}
+    </span>
+  </p>
+  <p>
+    <strong>method:</strong>
+    <span>
+      POST
+    </span>
+  </p>
+
+</body>
+</html>
+
+
+=== Passing Data in a Request Body (-d) ===
+curl --data "param1=value1&param2=value2" http://hostname/resource
+
+$ curl -X POST -d "fname=Mark&lname=Bates" quiet-waters-1228.herokuapp.com/echo
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Unix and Linux Commands for Developers</title>
+  <link href="/assets/application.css" media="all" rel="stylesheet" />
+  <script src="/assets/application.js"></script>
+</head>
+<body>
+
+  <p>
+    <strong>url:</strong>
+    <span>
+      http://quiet-waters-1228.herokuapp.com/echo
+    </span>
+  </p>
+  <p>
+    <strong>parameters:</strong>
+    <span>
+      {"fname"=>"Mark", "lname"=>"Bates"}
+    </span>
+  </p>
+  <p>
+    <strong>method:</strong>
+    <span>
+      POST
+    </span>
+  </p>
+  <p>
+    <strong>body:</strong>
+    <span>
+      fname=Mark&lname=Bates
+    </span>
+  </p>
+
+</body>
+</html>
+
+
+=== passing JSON via the -d flag
+$ curl -X POST -d "{\"name\":\"Mark\"}" quiet-waters-1228.herokuapp.com/echo
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Unix and Linux Commands for Developers</title>
+  <link href="/assets/application.css" media="all" rel="stylesheet" />
+  <script src="/assets/application.js"></script>
+</head>
+<body>
+
+  <p>
+    <strong>url:</strong>
+    <span>
+      http://quiet-waters-1228.herokuapp.com/echo
+    </span>
+  </p>
+  <p>
+    <strong>method:</strong>
+    <span>
+      POST
+    </span>
+  </p>
+  <p>
+    <strong>body:</strong>
+    <span>
+      {"name"=>"Mark"}
+    </span>
+  </p>
+
+</body>
+</html>
+
+
+=== JSON File for a Request Body (-d)
+form_data.json is a JSON file
+
+{
+  "lname": "Bates",
+  "fname": "Mark",
+  "site": "http://www.markbates.com",
+  "twitter": "http://twitter.com/markbates"
+}
+
+$ curl -X POST -d @form_data.json quiet-waters-1228.herokuapp.com/echo
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Unix and Linux Commands for Developers</title>
+  <link href="/assets/application.css" media="all" rel="stylesheet" />
+  <script src="/assets/application.js"></script>
+</head>
+<body>
+
+  <p>
+    <strong>url:</strong>
+    <span>
+      http://quiet-waters-1228.herokuapp.com/echo
+    </span>
+  </p>
+  <p>
+    <strong>method:</strong>
+    <span>
+      POST
+    </span>
+  </p>
+  <p>
+    <strong>body:</strong>
+    <span>
+      {"lname"=>"Bates", "fname"=>"Mark", "site"=>"http://www.markbates.com", "twitter"=>"http://twitter.com/markbates"}
+    </span>
+  </p>
+
+</body>
+</html>
+
+=== if the JSON file is in the web cloud
+https://api.github.com/markdown
+{
+  "message": "Not Found",
+  "documentation_url": "https://developer.github.com/v3"
+}
+
+Data from stdin: 
+
+$ echo '{"text": "Hello **world**!"}' | curl -d @- https://api.github.com/markdown
+
+output:
+<p>Hello <strong>world</strong>!</p>
+
+$ echo '{"text": "Hello **world**!"}' | curl -d @- https://api.github.com
+
+output:
+{
+  "message": "Not Found",
+  "documentation_url": "https://developer.github.com/v3"
+}
+
+
+=== HTML Form Parameters (-F)
+$ curl -X POST -F user[fname]=Mark -F user[lname]=Bates -F foo=bar \
+>   quiet-waters-1228.herokuapp.com/echo -H "Accept: application/json"
+{
+  "url": "http://quiet-waters-1228.herokuapp.com/echo",
+  "parameters": {"user":{"fname":"Mark","lname":"Bates"},"foo":"bar"},
+  "method": "POST",
+  "body": "--------------------------4d20387dfae43b9e\r\nContent-Disposition: form-data; name=\"user[fname]\"\r\n\r\nMark\r\n--------------------------4d20387dfae43b9e\r\nContent-Disposition: form-data; name=\"user[lname]\"\r\n\r\nBates\r\n--------------------------4d20387dfae43b9e\r\nContent-Disposition: form-data; name=\"foo\"\r\n\r\nbar\r\n--------------------------4d20387dfae43b9e--\r\n"
+}
+
+
+====== Headers (-H)
+$ curl -X POST -d @form_data.json quiet-waters-1228.herokuapp.com/echo \
+>   -H "Accept: application/json"
+{
+  "url": "http://quiet-waters-1228.herokuapp.com/echo",
+  "method": "POST",
+  "body": {
+    "lname": "Bates",
+    "fname": "Mark",
+    "site": "http://www.markbates.com",
+    "twitter": "http://twitter.com/markbates"
+  }
+}
+
+
+=== cURL allows multiple -H flags on a request, making it easy to send several headers at once.
+$ curl -X POST -d @form_data.json quiet-waters-1228.herokuapp.com/echo \
+>   -H "Accept: application/json" -H "X-Auth: 1234567890"
+{
+  "x-auth": "1234567890",
+  "url": "http://quiet-waters-1228.herokuapp.com/echo",
+  "method": "POST",
+  "body": {
+    "lname": "Bates",
+    "fname": "Mark",
+    "site": "http://www.markbates.com",
+    "twitter": "http://twitter.com/markbates"
+  }
+}
+
+===other form of header
+curl -X POST -d @filename.txt http://example.com/path/to/resource --header "Content-Type:text/xml"
+
+curl -X POST -d @filename.txt http://example.com/path/to/resource --header "Content-Type:application/json"
+
+======================= Basic HTTP Auth (-u) =======================
+$ curl -i -X POST quiet-waters-1228.herokuapp.com/login
+HTTP/1.1 401 Unauthorized
+Date: Thu, 28 Jul 2016 03:43:41 GMT
+Connection: close
+X-Frame-Options: SAMEORIGIN
+X-Xss-Protection: 1; mode=block
+X-Content-Type-Options: nosniff
+X-Ua-Compatible: chrome=1
+Content-Type: application/json; charset=utf-8
+Cache-Control: no-cache
+X-Request-Id: 1724fb03-86ae-4418-b8fd-08ed0cd39174
+X-Runtime: 0.001598
+Server: thin 1.6.1 codename Death Proof
+Via: 1.1 vegur
+
+{"error":"Unknown User"}
+
+=== The -u flag will let us pass a username and a password to the server to solve this problem.
+$ curl -X POST -u "user1:password1" quiet-waters-1228.herokuapp.com/login
+{"id":1,"name":"User 1","password":"password1","username":"user1"}
+
+
+=== RESTful HTTP Post:
+curl -X POST -d @filename http://hostname/resource
+
+=== For logging into a site (auth):
+curl -d "username=admin&password=admin&submit=Login" --dump-header headers http://localhost/Login
+curl -L -b headers http://localhost/
+
+curl -X POST -F 'username=davidwalsh' -F 'password=something' http://domain.tld/post-to-me.php
+
+
+for windows:
+curl -X POST -H "Content-Type: application/json" -d "{ \"key1\": \"value1\" }" http://localhost:3000/api/method
+
+/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+curl -X POST -H "Content-Type: application/json" -d '{"username":"xyz","password":"xyz"}' http://localhost:3000/api/login
+/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+
+================== in my GitHub project: https://github.com/Selimcse98/Laravel-REST-Api-Dingo =================
+url: http://localhost:8000/api/role/permission/add
+curl -X POST -H "Content-Type: application/json" -d '{"role":"owner","permission":"create_invoice"}' http://localhost:8000/api/role/permission/add
+curl -X POST -H "Content-Type: application/json" -d '{"role":"manager","permission":"write"}' http://localhost:8000/api/role/permission/add
+

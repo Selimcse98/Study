@@ -1,0 +1,49 @@
+$ php artisan route:list
+
+if your full controller class is App\Http\Controllers\Photos\AdminController, you would register a route like so:
+
+Route::get('foo', 'Photos\AdminController@method');
+
+Like Closure routes, you may specify names on controller routes:
+
+Route::get('foo', ['uses' => 'FooController@method', 'as' => 'name']);
+
+$url = route('name');
+$url = action('FooController@method');
+$action = Route::currentRouteAction();
+
+When declaring a resource route, you may specify a subset of actions to handle on the route:
+
+Route::resource('photo', 'PhotoController',
+                ['only' => ['index', 'show']]);
+
+Route::resource('photo', 'PhotoController',
+                ['except' => ['create', 'store', 'update', 'destroy']]);
+
+
+naming resource route
+Route::resource('photo', 'PhotoController',
+                ['names' => ['create' => 'photo.build']]);
+
+
+Nested Resources
+Route::resource('photos.comments', 'PhotoCommentController');
+photos/{photos}/comments/{comments}                                
+
+PhotoCommentController
+ public function show($photoId, $commentId)
+    {
+
+    }
+
+Supplementing Resource Controllers
+define additional routes before your call to Route::resource    
+Route::get('photos/popular', 'PhotoController@method');
+Route::resource('photos', 'PhotoController');
+
+Assigning Route Names
+Route::controller('users', 'UserController', [
+    'getShow' => 'user.show',
+]);
+
+

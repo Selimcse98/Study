@@ -44,6 +44,12 @@ Model::all() => select * from model
 $table->string('slug')->unique()->after('body'); => `slug` varchar(255) COLLATE utf8_unicode_ci NOT NULL, UNIQUE KEY `posts_slug_unique` (`slug`) //posts is table name
 												=> ALTER TABLE posts ADD COLUMN `slug` varchar(255) AFTER `body`;
 
+ Schema::table('permissions', function ($table) {
+            //$table->string('name', 50)->change();
+            //$table->string('permissions')->after('description');
+            $table->timestamps();
+        });
+        
 $table->integer('post_id')->unsigned(); => `post_id` int(10) unsigned NOT NULL, 
 $table->foreign('post_id')->references('id')->on('posts'); 
 => KEY `post_tag_tag_id_foreign` (`tag_id`),CONSTRAINT `post_tag_post_id_foreign` FOREIGN KEY (`post_id`) REFERENCES `posts` (`id`), //from `post_tag` table
@@ -243,3 +249,7 @@ CREATE TABLE `categories` (
   `updated_at` timestamp NULL DEFAULT NULL,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+
+
+
+
