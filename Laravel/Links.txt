@@ -34,3 +34,7 @@ https://www.sitepoint.com/how-to-build-an-api-only-jwt-powered-laravel-app/
 
 NetTuts
 https://tuts.codingo.me/dingo-api-quick-start
+
+api-jwt:
+https://scotch.io/tutorials/token-based-authentication-for-angularjs-and-laravel-apps
+http://ryanchenkie.com/token-based-authentication-for-angularjs-and-laravel-apps/

@@ -253,3 +253,101 @@ You can turn off this feature to get a quicker startup with -A
 Database changed
 
 
+mysql> show columns from permissions;
++--------------+------------------+------+-----+---------+-------+
+| Field        | Type             | Null | Key | Default | Extra |
++--------------+------------------+------+-----+---------+-------+
+| id           | int(11) unsigned | NO   | PRI | NULL    |       |
+| name         | varchar(255)     | NO   |     | NULL    |       |
+| display_name | varchar(255)     | NO   |     | NULL    |       |
+| description  | varchar(255)     | NO   |     | NULL    |       |
+| created_at   | timestamp        | YES  |     | NULL    |       |
+| updated_at   | timestamp        | YES  |     | NULL    |       |
++--------------+------------------+------+-----+---------+-------+
+6 rows in set (0.00 sec)
+
+=============== database dump from terminal ===========================
+Mohammads-MacBook-Air:ApiDingo mohammadselimmiah$ mysqldump --no-data --skip-opt --skip-comments --compact -u root -p "ApiDingoDb"
+
+
+Mohammads-MacBook-Air:ApiDingo mohammadselimmiah$ mysqldump --no-data --skip-opt --skip-comments --compact -u root -p "ApiDingoDb"
+Enter password: 
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `migrations` (
+  `migration` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
+  `batch` int(11) NOT NULL
+);
+/*!40101 SET character_set_client = @saved_cs_client */;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `password_resets` (
+  `email` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
+  `token` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
+  `created_at` timestamp NULL DEFAULT NULL,
+  KEY `password_resets_email_index` (`email`),
+  KEY `password_resets_token_index` (`token`)
+);
+/*!40101 SET character_set_client = @saved_cs_client */;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `permission_role` (
+  `permission_id` int(11) unsigned NOT NULL,
+  `role_id` int(11) unsigned NOT NULL,
+  KEY `permission_role_id_fk` (`permission_id`),
+  KEY `permission_role_fk` (`role_id`),
+  CONSTRAINT `permission_role_fk` FOREIGN KEY (`role_id`) REFERENCES `roles` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
+  CONSTRAINT `permission_role_id_fk` FOREIGN KEY (`permission_id`) REFERENCES `permissions` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
+);
+/*!40101 SET character_set_client = @saved_cs_client */;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `permissions` (
+  `id` int(11) unsigned NOT NULL,
+  `name` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
+  `display_name` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
+  `description` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
+  `created_at` timestamp NULL DEFAULT NULL,
+  `updated_at` timestamp NULL DEFAULT NULL,
+  PRIMARY KEY (`id`)
+);
+/*!40101 SET character_set_client = @saved_cs_client */;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `role_user` (
+  `user_id` int(10) unsigned NOT NULL,
+  `role_id` int(10) unsigned NOT NULL,
+  KEY `role_user_user_id_foreign` (`user_id`),
+  KEY `role_user_role_id_foreign` (`role_id`),
+  CONSTRAINT `role_user_role_id_foreign` FOREIGN KEY (`role_id`) REFERENCES `roles` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
+  CONSTRAINT `role_user_user_id_foreign` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
+);
+/*!40101 SET character_set_client = @saved_cs_client */;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `roles` (
+  `id` int(10) unsigned NOT NULL,
+  `name` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
+  `display_name` varchar(255) COLLATE utf8_unicode_ci DEFAULT NULL,
+  `description` varchar(255) COLLATE utf8_unicode_ci DEFAULT NULL,
+  `created_at` timestamp NULL DEFAULT NULL,
+  `updated_at` timestamp NULL DEFAULT NULL,
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `roles_name_unique` (`name`)
+);
+/*!40101 SET character_set_client = @saved_cs_client */;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `users` (
+  `id` int(10) unsigned NOT NULL,
+  `name` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
+  `email` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
+  `password` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
+  `remember_token` varchar(100) COLLATE utf8_unicode_ci DEFAULT NULL,
+  `created_at` timestamp NULL DEFAULT NULL,
+  `updated_at` timestamp NULL DEFAULT NULL,
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `users_email_unique` (`email`)
+);
+/*!40101 SET character_set_client = @saved_cs_client */;
+Mohammads-MacBook-Air:ApiDingo mohammadselimmiah$ 
